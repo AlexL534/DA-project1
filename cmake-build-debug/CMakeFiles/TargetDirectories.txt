@@ -1,0 +1,3 @@
+C:/Users/alexa/OneDrive/Ambiente de Trabalho/2A-2S/Desenho de Algoritmos/Projeto 1/Water Supply Management/cmake-build-debug/CMakeFiles/Water_Supply_Management.dir
+C:/Users/alexa/OneDrive/Ambiente de Trabalho/2A-2S/Desenho de Algoritmos/Projeto 1/Water Supply Management/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/alexa/OneDrive/Ambiente de Trabalho/2A-2S/Desenho de Algoritmos/Projeto 1/Water Supply Management/cmake-build-debug/CMakeFiles/rebuild_cache.dir

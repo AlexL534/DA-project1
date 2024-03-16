@@ -57,9 +57,9 @@ public:
     int getWeight() const;
     int getFlow() const;
     int getCapacity() const;
-    void setWeight();
-    void getFlow();
-    void getCapacity();
+    void setWeight(int w);
+    void setFlow(int f);
+    void setCapacity(int c);
     friend class Graph<T>;
     friend class Vertex<T>;
 };

@@ -51,8 +51,33 @@ void Edge<T>::setDest(Vertex<T> *d) {
 }
 
 template<class T>
+int Edge<T>::getCapacity() const {
+    return capacity;
+}
+
+template<class T>
+void Edge<T>::setFlow(int f) {
+    Edge::flow = f;
+}
+
+template<class T>
+int Edge<T>::getFlow() const {
+    return flow;
+}
+
+template<class T>
+void Edge<T>::setCapacity(int c) {
+    Edge::capacity = c;
+}
+
+template<class T>
 int Edge<T>::getWeight() const {
     return weight;
+}
+
+template<class T>
+void Edge<T>::setWeight(int w) {
+    Edge::weight = w;
 }
 
 template <class T>
@@ -224,7 +249,7 @@ int Graph<T>::fordFulkerson(Graph<T>& G, Vertex<T>* s, Vertex<T>* t) {
         vector<Edge<T>*> path = findAugmentingPath(G, s, t);
         if (path.empty()) break;
 
-        T bottleneckCapacity = std::numeric_limits<T>::max();
+        int bottleneckCapacity = INT_MAX;
         for (auto edge : path) {
             if (edge->getCapacity() < bottleneckCapacity) {
                 bottleneckCapacity = edge->getCapacity();

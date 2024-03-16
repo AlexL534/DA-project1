@@ -15,4 +15,5 @@ add_executable(Water_Supply_Management
         src/Pipe.h
         src/parse.cpp
         src/parse.h
+        src/graph.h
 )

@@ -17,11 +17,11 @@ Reservoir::Reservoir(const std::string &name, const std::string &municipality, c
     this->maxDelivery = maxDelivery;
 }
 
-string Reservoir::getName() const {
+std::string Reservoir::getName() const {
     return this->name;
 }
 
-string Reservoir::getMunicipality() const {
+std::string Reservoir::getMunicipality() const {
     return this->municipality;
 }
 
@@ -29,7 +29,7 @@ int Reservoir::getId() const {
     return this->id;
 }
 
-string Reservoir::getCode() const {
+std::string Reservoir::getCode() const {
     return this->code;
 }
 

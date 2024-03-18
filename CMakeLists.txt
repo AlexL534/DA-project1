@@ -19,4 +19,6 @@ add_executable(Water_Supply_Management
         src/graph.cpp
         src/graph.h
         src/main.cpp
+        src/menu.cpp
+        src/menu.h
 )

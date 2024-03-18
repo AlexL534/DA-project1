@@ -1,3 +1,0 @@
-C:/Users/Guilherme/Ambiente de Trabalho/da_project1/cmake-build-debug/CMakeFiles/Water_Supply_Management.dir
-C:/Users/Guilherme/Ambiente de Trabalho/da_project1/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Guilherme/Ambiente de Trabalho/da_project1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

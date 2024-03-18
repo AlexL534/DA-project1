@@ -82,7 +82,7 @@ public:
     vector<T> bfs(const T &source) const;
     int fordFulkerson(Graph<T>& G, Vertex<T>* s, Vertex<T>* t);
     void initializeFlow(Graph<T>& G);
-    vector<Edge<T>*> findAugmentingPath(Graph<T>& G, Vertex<T>* s, Vertex<T>* t)
+    vector<Edge<T>*> findAugmentingPath(Graph<T>& G, Vertex<T>* s, Vertex<T>* t);
 
 };
 

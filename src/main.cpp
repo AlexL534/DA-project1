@@ -1,6 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include "parse.h"
+#include "Pipe.h"
+
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    vector<Pipe> pipes = parsePipes();
     return 0;
 }

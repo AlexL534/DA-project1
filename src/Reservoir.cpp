@@ -8,7 +8,7 @@ Reservoir::Reservoir() {
     this->maxDelivery = -1;
 }
 
-Reservoir::Reservoir(const string &name, const string &municipality, const int &id, const string &code,
+Reservoir::Reservoir(const std::string &name, const std::string &municipality, const int &id, const std::string &code,
                      const int &maxDelivery) {
     this->name = name;
     this->municipality = municipality;

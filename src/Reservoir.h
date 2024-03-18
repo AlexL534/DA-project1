@@ -3,31 +3,29 @@
 
 #include <string>
 
-using namespace std;
-
 class Reservoir {
-public:
-    string name;
-    string municipality;
+private:
+    std::string name;
+    std::string municipality;
     int id;
-    string code;
+    std::string code;
     int maxDelivery;
 
-private:
+public:
     Reservoir();
 
     Reservoir(
-        const string &name,
-        const string &municipality,
+        const std::string &name,
+        const std::string &municipality,
         const int &id,
-        const string &code,
+        const std::string &code,
         const int &maxDelivery
     );
 
-    string getName() const;
-    string getMunicipality() const;
+    std::string getName() const;
+    std::string getMunicipality() const;
     int getId() const;
-    string getCode() const;
+    std::string getCode() const;
     int getMaxDelivery() const;
 };
 

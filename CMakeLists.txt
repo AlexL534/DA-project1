@@ -3,8 +3,9 @@ project(Water_Supply_Management)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include_directories(.)
+
 add_executable(Water_Supply_Management
-        src/main.cpp
         src/Reservoir.cpp
         src/Reservoir.h
         src/Station.cpp
@@ -15,6 +16,9 @@ add_executable(Water_Supply_Management
         src/Pipe.h
         src/parse.cpp
         src/parse.h
-        src/graph.h
         src/graph.cpp
+        src/graph.h
+        src/main.cpp
+        src/menu.cpp
+        src/menu.h
 )

@@ -6,19 +6,19 @@
 using namespace std;
 
 class Station {
-public:
-    string name;
+private:
+    int id;
     string code;
 
-private:
+public:
     Station();
 
     Station(
-            const string &name,
+            const int &id,
             const string &code
     );
 
-    string getName() const;
+    int getId() const;
     string getCode() const;
 };
 

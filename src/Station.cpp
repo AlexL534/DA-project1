@@ -1,17 +1,17 @@
 #include "Station.h"
 
 Station::Station() {
-    this->name = "";
+    this->id = -1;
     this->code = "";
 }
 
-Station::Station(const string &name, const string &code) {
-    this->name = name;
+Station::Station(const int &id, const string &code) {
+    this->id = id;
     this->code = code;
 }
 
-string Station::getName() const {
-    return this->name;
+int Station::getId() const {
+    return this->id;
 }
 
 string Station::getCode() const {

@@ -1,3 +1,4 @@
+#ifndef WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #define WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #include <cstddef>
 #include <unordered_map>
@@ -9,6 +10,10 @@
 #include <string>
 #include <limits>
 #include <queue>
+#include <variant>
+#include "Reservoir.h"
+#include "Station.h"
+#include "City.h"
 
 
 using namespace std;
@@ -19,7 +24,7 @@ template <class T> class Vertex;
 
 template <class T>
 class Vertex {
-    T info;
+    std::variant<Reservoir, Station, City> info;
     vector<Edge<T> > adj;
     bool visited;
     vector<Vertex<T>> prev;
@@ -76,6 +81,7 @@ public:
     bool removeVertex(const T &in);
     bool addEdge(const T &source, const T &dest);
     bool addEdge(const T &source, const T &dest, int weight);
+    bool addBidirectionalEdge(const T &source, const T &dest, int weight);
     bool removeEdge(const T &source, const T &dest);
     vector<Vertex<T> * > getVertexSet() const;
     void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
@@ -87,4 +93,4 @@ public:
 
 };
 
-
+#endif // WATER_SUPPLY_MANAGEMENT_GRAPH_H

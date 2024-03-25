@@ -1,8 +1,9 @@
 #include <iostream>
+#include <vector>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <vector>
+#include "graph.h"
 #include "Reservoir.h"
 #include "Station.h"
 #include "Pipe.h"

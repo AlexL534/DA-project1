@@ -5,6 +5,7 @@
 #include "Station.h"
 #include "Pipe.h"
 #include "City.h"
+#include "graph.h"
 #include <vector>
 
 std::vector<Reservoir> parseReservoirs();

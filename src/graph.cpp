@@ -146,6 +146,23 @@ bool Graph<T>::addEdge(const T &source, const T &dest, int weight) {
     return true;
 }
 
+template<class T>
+bool Graph<T>::addBidirectionalEdge(const T &source, const T &dest, int weight) {
+    Vertex<T>* sourceVertex = findVertex(source);
+    Vertex<T>* destVertex = findVertex(dest);
+
+    if (sourceVertex == nullptr || destVertex == nullptr)
+        return false;
+
+    // Add edge from source to destination
+    sourceVertex->addEdge(destVertex, weight);
+
+    // Add edge from destination to source
+    destVertex->addEdge(sourceVertex, weight);
+
+    return true;
+}
+
 template <class T>
 void Vertex<T>::addEdge(Vertex<T> *d) {
     adj.push_back(Edge<T>(d));

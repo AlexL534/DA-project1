@@ -1,5 +1,6 @@
 #define WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #include <cstddef>
+#include <iostream>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -9,82 +10,97 @@
 #include <string>
 #include <limits>
 #include <queue>
-
+#include <map>
+#include "Reservoir.h"
+#include "City.h"
+#include "Pipe.h"
+#include "Station.h"
 
 using namespace std;
 
-template <class T> class Edge;
-template <class T> class Graph;
-template <class T> class Vertex;
+class Edge;
+class Graph;
+class Vertex;
 
-template <class T>
-class Vertex {
-    T info;
-    vector<Edge<T> > adj;
-    bool visited;
-    vector<Vertex<T>> prev;
-    int indegree;
-    int dist;
-    void addEdge(Vertex<T> *dest);
-    void addEdge(Vertex<T> *dest, int weight);
-    bool removeEdgeTo(Vertex<T> *d);
-public:
-    Vertex();
-    Vertex(T in);
-    T getInfo() const;
-    void setInfo(T in);
-    bool isVisited() const;
-    void setVisited(bool v);
-    string getPrev() const;
-    void setPrev(string p);
-    const vector<Edge<T>> &getAdj() const;
-    void setAdj(const vector<Edge<T>> &adj);
-    int getIndegree() const;
-    void setIndegree(int indegree);
-    friend class Graph<T>;
+enum class VertexType {
+    STATION,
+    RESERVOIR,
+    CITY
 };
 
-template <class T>
+class Vertex {
+    int id;
+    VertexType type;
+    std::string info;
+    vector<Edge *> adj;
+    vector<Edge *> path;
+    bool visited;
+    Edge* prev;
+    int indegree;
+    int dist;
+    void addEdge(Vertex *src, Vertex *dest, int capacity);
+    bool removeEdgeTo(Vertex *d);
+public:
+    Vertex();
+    Vertex(const std::string& in, int i, VertexType t);
+    std::string getInfo() const;
+    void setInfo(const std::string& in);
+    int getId() const;
+    VertexType getType() const;
+    bool isType(VertexType t) const;
+    void printType() const;
+    bool isVisited() const;
+    void setVisited(bool v);
+    Edge* getPrev() const;
+    void setPrev(Edge* prev);
+    vector<Edge*> getPath() const;
+    void setPath( vector<Edge *> p);
+    vector<Edge*> getAdj() const;
+    void setAdj( vector<Edge *> adj);
+    int getIndegree() const;
+    void setIndegree(int indegree);
+    friend class Graph;
+};
+
 class Edge {
-    Vertex<T> * dest;
+    Vertex * src;
+    Vertex * dest;
     int weight;
     int flow;
     int capacity;
 public:
-    Edge(Vertex<T> *d);
-    Edge(Vertex<T> *d, int w);
-    Vertex<T> *getDest() const;
-    void setDest(Vertex<T> *dest);
+    Edge(Vertex *d);
+    Edge(Vertex *s, Vertex *d, int ca);
+    Vertex *getDest() const;
+    void setDest(Vertex *dest);
     int getWeight() const;
     int getFlow() const;
     int getCapacity() const;
     void setWeight(int w);
     void setFlow(int f);
     void setCapacity(int c);
-    friend class Graph<T>;
-    friend class Vertex<T>;
+    friend class Graph;
+    friend class Vertex;
 };
 
-template <class T>
 class Graph {
-    vector<Vertex<T> *> vertexSet;
+    vector<Vertex*> vertexSet;
+    map<string, vector<Edge>> allEdges;
 public:
     Graph() = default;
-    Vertex<T> *findVertex(const T &in) const;
+    Vertex *findVertex(const std::string &in) const;
     int getNumVertex() const;
-    bool addVertex(const T &in);
-    bool removeVertex(const T &in);
-    bool addEdge(const T &source, const T &dest);
-    bool addEdge(const T &source, const T &dest, int weight);
-    bool removeEdge(const T &source, const T &dest);
-    vector<Vertex<T> * > getVertexSet() const;
-    void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
-    vector<T> dfs(const T &source) const;
-    vector<T> bfs(const T &source) const;
-    int fordFulkerson(Graph<T>& G, Vertex<T>* s, Vertex<T>* t);
-    void initializeFlow(Graph<T>& G);
-    vector<Edge<T>*> findAugmentingPath(Graph<T>& G, Vertex<T>* s, Vertex<T>* t);
+    Edge findEdge(const std::string& source, const std::string& dest);
+    bool addVertex(const std::string &in, VertexType t, int id);
+    bool removeVertex(const std::string &in);
+    bool addEdge(const std::string &source, const std::string &dest, int direction, int capacity);
+    bool removeEdge(const std::string &source, const std::string &dest);
+    vector<Vertex*> getVertexSet() const;
+    void dfsVisit(Vertex *v, vector<std::string>& res) const;
+    vector<std::string> dfs(const std::string &source) const;
+    bool bfs(Vertex* src, Vertex* snk);
+    void updateFlow(Vertex* src, Vertex* snk, int flow);
+    void edmondsKarp(const std::string &source, const std::string &sink);
+    Graph buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities);
 
 };
-
-

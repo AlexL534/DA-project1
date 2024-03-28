@@ -65,7 +65,7 @@ public:
 class Edge {
     Vertex * src;
     Vertex * dest;
-    int weight;
+    //int weight;
     int flow;
     int capacity;
 public:

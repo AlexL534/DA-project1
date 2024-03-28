@@ -235,6 +235,7 @@ bool Graph::bfs(Vertex* src, Vertex* snk) {
         Vertex* u = q.front();
         q.pop();
         for (auto edge: u->getAdj()){
+            //cout << endl << "Residual : " << edge->getDest()->info<< ' ' << edge->capacity - edge->flow << endl;
             if (edge->capacity - edge->flow > 0 && !edge->getDest()->isVisited()){
                 Vertex* v = edge->getDest();
                 v->setVisited(true);
@@ -244,6 +245,7 @@ bool Graph::bfs(Vertex* src, Vertex* snk) {
         }
 
         for(auto edge: u->getPath()){
+            //cout << endl << "Residual : " << edge->src->info<< ' ' << edge->capacity - edge->flow << endl;
             Vertex* v = edge->src;
             if(edge->flow > 0 && !v->isVisited()){
                 v->setVisited(true);
@@ -278,9 +280,11 @@ return g;
 }
 
 void Graph::updateFlow(Vertex *src, Vertex *snk, int flow) {
+    //cout << endl << "Flow : " << flow << endl;
     for (auto v = snk; v != src;) {
         auto e = v->getPrev();
         int f = e->getFlow();
+        //cout <<"f : " << f << ' ';
         if (e->getDest()->info == v->info) {
             e->setFlow(f + flow);
             v = e->src;
@@ -303,9 +307,11 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
 
     while(bfs(src, snk)){
 
+        //cout << endl<< "all flows : " << endl;
 
         for(auto it:vertexSet){
             for(auto it2:it->adj){
+                //cout <<endl<< it2->src->info<< " to " << it2->dest->info << " capacity : " <<it2->capacity<< "flow : " << it2->flow;
             }
         }
 
@@ -314,11 +320,14 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
         for (auto it = snk; it!= src;){
             Edge* edge = it->getPrev();
             if(edge->getDest()->info == it->info){
+                //cout << "a";
                 it = edge->src;
+                //cout <<endl<< "A : " << edge->getCapacity() << ' ' << edge->getFlow();
                 flow = std::min(flow, edge->getCapacity() - edge->getFlow());
             }
             else {
                 it = edge->getDest();
+                //cout <<endl<< "B : " << edge->getCapacity() << ' ' << edge->getFlow();
                 flow = std::min(flow, edge->getFlow());
             }
         }
@@ -331,3 +340,5 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
 
 
 }
+
+

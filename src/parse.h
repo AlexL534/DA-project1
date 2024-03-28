@@ -16,5 +16,4 @@ std::vector<Pipe> parsePipes();
 
 std::vector<City> parseCities();
 
-
 #endif // PARSE_H

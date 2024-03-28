@@ -1,44 +1,35 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include <sstream>
 #include <fstream>
 #include "parse.h"
 #include "Pipe.h"
 #include "menu.h"
-#include "graph.h"
+#include "Actions.h"
 
 int main() {
+
     std::vector<Reservoir> reservoirs = parseReservoirs();
     std::vector<Station> stations = parseStations();
     std::vector<Pipe> pipes = parsePipes();
     std::vector<City> cities = parseCities();
 
-    /*Daqui para baixo está a dar casota <----------
-    Graph<std::string> graph;
+    Actions a(reservoirs, stations, cities, pipes);
 
-    for (const auto& reservoir : reservoirs) {
-        graph.addVertex(reservoir.getCode());
-    }
+    Graph g, graph;
 
-    for (const auto& station : stations) {
-        graph.addVertex(station.getCode());
-    }
+    graph = g.buildGraph(reservoirs, stations, pipes, cities);
 
-    for (const auto& city : cities) {
-        graph.addVertex(city.getCode());
+    map<string, int> aaa = a.maxFlowAllCities(graph);
+
+    for(auto it : aaa){
+        cout << endl << it.first << ' ' << it.second << endl;
     }
 
 
-    for (const auto& pipe : pipes) {
-        if (pipe.getDirection() == 0 ) {
-            graph.addBidirectionalEdge(pipe.getPointA(),pipe.getPointB(),pipe.getCapacity());
-        }
-        else if (pipe.getDirection() == 1) {
-            graph.addEdge(pipe.getPointA(),pipe.getPointB(),pipe.getCapacity());
-        }
-    }
-    */
-    menu();
+
+    //menu();
 
     return 0;
 }

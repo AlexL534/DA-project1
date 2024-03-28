@@ -27,8 +27,6 @@ int main() {
         cout << endl << it.first << ' ' << it.second << endl;
     }
 
-
-
     //menu();
 
     return 0;

@@ -158,7 +158,6 @@ bool Graph::addEdge(const std::string& source, const std::string& dest, int dire
         v2->addEdge(v2, v1, capacity);
         allEdges[v2->info].push_back(Edge(v2, v1, capacity));
     }
-
     return true;
 }
 
@@ -166,55 +165,6 @@ void Vertex::addEdge(Vertex* src, Vertex* dest, int capacity) {
     Edge* edge = new Edge(src, dest, capacity);
     adj.push_back(edge);
     dest->path.push_back(edge);
-}
-
-bool Graph::removeEdge(const std::string& source, const std::string& dest) {
-    auto v1 = findVertex(source);
-    auto v2 = findVertex(dest);
-<<<<<<< HEAD
-    if (v1 == NULL || v2 == NULL)
-        return false;
-    v1->addEdge(v2, weight);
-    return true;
-}
-
-template<class T>
-bool Graph<T>::addBidirectionalEdge(const T &source, const T &dest, int weight) {
-    Vertex<T>* sourceVertex = findVertex(source);
-    Vertex<T>* destVertex = findVertex(dest);
-
-    if (sourceVertex == nullptr || destVertex == nullptr)
-        return false;
-
-    // Add edge from source to destination
-    sourceVertex->addEdge(destVertex, weight);
-
-    // Add edge from destination to source
-    destVertex->addEdge(sourceVertex, weight);
-
-    return true;
-}
-
-template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d) {
-    adj.push_back(Edge<T>(d));
-}
-
-template <class T>
-void Vertex<T>::addEdge(Vertex<T> *dest, int weight) {
-    adj.push_back(Edge<T>(dest, weight));
-}
-
-template <class T>
-bool Graph<T>::removeEdge(const T &source, const T &dest) {
-    auto v1 = findVertex(source);
-    auto v2 = findVertex(dest);
-    if (v1 == NULL || v2 == NULL)
-=======
-    if (v1 == nullptr || v2 == nullptr)
->>>>>>> build-graph
-        return false;
-    return v1->removeEdgeTo(v2);
 }
 
 bool Vertex::removeEdgeTo(Vertex* d) {

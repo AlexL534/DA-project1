@@ -1,4 +1,3 @@
-#ifndef WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #define WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #include <cstddef>
 #include <iostream>
@@ -61,15 +60,14 @@ public:
     int getIndegree() const;
     void setIndegree(int indegree);
     friend class Graph;
-
 };
 
 class Edge {
     Vertex * src;
     Vertex * dest;
-    //int weight;
     int flow;
     int capacity;
+    int weight;
 public:
     Edge(Vertex *d);
     Edge(Vertex *s, Vertex *d, int ca);
@@ -106,4 +104,4 @@ public:
     Graph buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities);
 
 };
->>>>>>> build-graph
+

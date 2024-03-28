@@ -27,6 +27,13 @@ public:
     int getId() const;
     std::string getCode() const;
     int getMaxDelivery() const;
+    bool operator<(const Reservoir r) const{
+        return code < r.code;
+    }
+    bool operator==(const Reservoir r) const{
+        return code == r.code;
+    }
+
 };
 
 

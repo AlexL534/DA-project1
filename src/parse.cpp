@@ -8,6 +8,7 @@
 #include "Station.h"
 #include "Pipe.h"
 #include "City.h"
+#include "parse.h"
 
 std::vector<Reservoir> parseReservoirs() {
     std::vector<Reservoir> reservoirs;

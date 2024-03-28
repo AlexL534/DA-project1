@@ -1,3 +1,4 @@
+#ifndef WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #define WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #include <cstddef>
 #include <iostream>

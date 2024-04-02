@@ -76,14 +76,6 @@ void Edge::setCapacity(int c) {
     capacity = c;
 }
 
-int Edge::getWeight() const {
-    return weight;
-}
-
-void Edge::setWeight(int w) {
-    weight = w;
-}
-
 Vertex* Graph::findVertex(const std::string& in) const {
     for (auto v : vertexSet)
         if (v->info == in)
@@ -93,6 +85,10 @@ Vertex* Graph::findVertex(const std::string& in) const {
 
 vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
+}
+
+map<string,vector<Edge>> Graph::getEdgesSet() const {
+    return allEdges;
 }
 
 bool Vertex::isVisited() const {
@@ -185,15 +181,26 @@ bool Vertex::removeEdgeTo(Vertex* d) {
 }
 
 bool Graph::removeVertex(const std::string& in) {
-    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++)
+    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+        //cout << "ccc";
         if ((*it)->info == in) {
-            auto v = *it;
-            vertexSet.erase(it);
-            for (auto u : vertexSet)
+            //cout << "ddd";
+            Vertex * v = *it;
+            auto e = v->adj.begin();
+            while(e != v->adj.end()){
+                Edge *edge = *e;
+                e = v->adj.erase(e);
+                auto it = edge->dest->path.begin();
+                while(it != edge->dest->path.end()){
+                    it = edge->dest->path.erase(it);
+                }
+            }
+            for (auto u : vertexSet){
                 u->removeEdgeTo(v);
-            delete v;
+            }
             return true;
         }
+    }
     return false;
 }
 
@@ -258,24 +265,24 @@ bool Graph::bfs(Vertex* src, Vertex* snk) {
 }
 
 Graph Graph::buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities){
-Graph g;
-for (auto r:reservoirs){
-g.addVertex(r.getCode(), VertexType::RESERVOIR, r.getId());
-}
+    Graph g;
+    for (auto r:reservoirs){
+        g.addVertex(r.getCode(), VertexType::RESERVOIR, r.getId());
+    }
 
-for(auto s: stations){
-g.addVertex(s.getCode(), VertexType::STATION, s.getId());
-}
+    for(auto s: stations){
+        g.addVertex(s.getCode(), VertexType::STATION, s.getId());
+    }
 
-for(auto c: cities){
-g.addVertex(c.getCode(), VertexType::CITY, c.getId());
-}
+    for(auto c: cities){
+        g.addVertex(c.getCode(), VertexType::CITY, c.getId());
+    }
 
-for(auto p: pipes){
-g.addEdge(p.getPointA(), p.getPointB(), p.getDirection(), p.getCapacity());
-}
+    for(auto p: pipes){
+        g.addEdge(p.getPointA(), p.getPointB(), p.getDirection(), p.getCapacity());
+    }
 
-return g;
+    return g;
 }
 
 void Graph::updateFlow(Vertex *src, Vertex *snk, int flow) {
@@ -315,6 +322,7 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
         }
 
         int flow = INT_MAX;
+        //cout << endl << "Min residual" << endl;
 
         for (auto it = snk; it!= src;){
             Edge* edge = it->getPrev();
@@ -339,5 +347,4 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
 
 
 }
-
 

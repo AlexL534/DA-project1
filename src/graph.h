@@ -94,9 +94,11 @@ public:
     Edge findEdge(const std::string& source, const std::string& dest);
     bool addVertex(const std::string &in, VertexType t, int id);
     bool removeVertex(const std::string &in);
+    bool removePath(Edge * e);
     bool addEdge(const std::string &source, const std::string &dest, int direction, int capacity);
     bool removeEdge(const std::string &source, const std::string &dest);
     vector<Vertex*> getVertexSet() const;
+    map<string,vector<Edge>> getEdgesSet() const;
     void dfsVisit(Vertex *v, vector<std::string>& res) const;
     vector<std::string> dfs(const std::string &source) const;
     bool bfs(Vertex* src, Vertex* snk);
@@ -105,3 +107,4 @@ public:
     Graph buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities);
 
 };
+#endif

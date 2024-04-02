@@ -31,10 +31,15 @@ int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
     for (Edge *edge: v->getPath()) {
         maxFlow += edge->getFlow();
     }
+
+
+    g.removeVertex("Si");
+    g.removeVertex("S");
+
     return maxFlow;
 }
 
-map<string, int> Actions::maxFlowAllCities(Graph &g) {
+map<string, int> Actions::maxFlowAllCities(Graph& g) {
     map<string, int> City_flow;
     for(auto c:cities){
         int flow = maxFlowSpecificCity(g,c.getCode());

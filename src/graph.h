@@ -93,6 +93,7 @@ public:
     Edge findEdge(const std::string& source, const std::string& dest);
     bool addVertex(const std::string &in, VertexType t, int id);
     bool removeVertex(const std::string &in);
+    bool removePath(Edge * e);
     bool addEdge(const std::string &source, const std::string &dest, int direction, int capacity);
     bool removeEdge(const std::string &source, const std::string &dest);
     vector<Vertex*> getVertexSet() const;

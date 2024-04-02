@@ -176,16 +176,30 @@ bool Vertex::removeEdgeTo(Vertex* d) {
     return false;
 }
 
+
+
 bool Graph::removeVertex(const std::string& in) {
-    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++)
+
+    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+        //cout << "ccc";
         if ((*it)->info == in) {
-            auto v = *it;
-            vertexSet.erase(it);
-            for (auto u : vertexSet)
+            //cout << "ddd";
+            Vertex * v = *it;
+            auto e = v->adj.begin();
+            while(e != v->adj.end()){
+                Edge *edge = *e;
+                e = v->adj.erase(e);
+                auto it = edge->dest->path.begin();
+                while(it != edge->dest->path.end()){
+                    it = edge->dest->path.erase(it);
+                }
+            }
+            for (auto u : vertexSet){
                 u->removeEdgeTo(v);
-            delete v;
+            }
             return true;
         }
+    }
     return false;
 }
 
@@ -307,7 +321,7 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
         }
 
         int flow = INT_MAX;
-
+        //cout << endl << "Min residual" << endl;
         for (auto it = snk; it!= src;){
             Edge* edge = it->getPrev();
             if(edge->getDest()->info == it->info){

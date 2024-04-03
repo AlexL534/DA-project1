@@ -9,7 +9,7 @@ void menu(Graph& graph, Actions& actions){
     int choice;
     do {
         std::cout << "-------------------------------------------------------\n";
-        std::cout << "Welcome to An Analysis Tool for Water Supply Management\n";
+        std::cout << "Welcome to Water Supply Management Analysis Tool\n";
         std::cout << "-------------------------------------------------------\n";
         std::cout << "1. Determine the maximum amount of water that can reach a specific city or each city\n";
         std::cout << "2. Check if an existing network configuration can meet the water needs of its customer\n";

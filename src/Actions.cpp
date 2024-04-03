@@ -141,5 +141,8 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     cout << "After using the balancing algorithm the average of the difference between capacity and flow of each pipe is: " << final_average << endl;
     cout << "The variance of the difference between capacity and flow of each pipe is: " << final_variance << endl;
     cout << "And the maximum difference between capacity and flow of each pipe is: " << final_max_diff << endl;
-}
 
+    //remove these vertices so that graph is not altered
+    g.removeVertex("Si");
+    g.removeVertex("S");
+}

@@ -25,6 +25,11 @@ public:
     map<string, int> maxFlowAllCities(Graph& g); //2.1
     void balanceAndCalculateMetrics(Graph& g); //2.3
     void analyzePumpingStations(Graph& g); //3.2
+    void crucialPipelines(Graph& g); //3.3
+    struct AffectedCity {
+        string code; // Código da cidade
+        int deficit; // Déficit no fornecimento de água para a cidade
+    };
 };
 
 

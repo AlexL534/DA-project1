@@ -151,11 +151,6 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
 void Actions::analyzePumpingStations(Graph& g) {
     int count = 0; //number of stations that can be removed
     vector<string> canBeRemoved;
-    //struct that will be helpful for the function
-    struct AffectedCity {
-        string code; // Código da cidade
-        int deficit; // Déficit no fornecimento de água para a cidade
-    };
     map<string, vector<AffectedCity>> station_city;
 
     Actions a(reservoirs, stations, cities, pipes);
@@ -184,7 +179,7 @@ void Actions::analyzePumpingStations(Graph& g) {
             // Check if the city's water supply is affected
             if (currentFlowMap[city.getCode()] < initialFlowMap[city.getCode()]) { //current flow different from the initial
                 // Record the affected city and its water supply deficit
-                int deficit = initialFlowMap.at(city.getCode()) - currentFlowMap[city.getCode()];
+                int deficit = city.getDemand() - a.maxFlowSpecificCity(tempGraph, city.getCode());
                 affectedCities.push_back({city.getCode(), deficit});
                 cityWaterSupplyAffected = true;
             }
@@ -240,6 +235,21 @@ void Actions::analyzePumpingStations(Graph& g) {
         } while(true);
     }
 }
+
+/* Explicação da função
+ the function stores the number of stations that can be removed
+ inicializamos um mapa em que a chave é o código da station e o valor é um vetor com as cidades afetadas
+ it initializes a map, initialFlowMap with the flow of each city before removal
+ vai iterar as stations
+    sempre que iterar vai criar um tempGraph que é uma cópia do inicial, e remover uma station
+    inicializamos outro mapa com o flow de cada cidade para o grafo sem uma station
+    é criado um vetor onde serão armazendas as cidades afetadas
+    iteramos por todas as cidades
+        se o flow tiver sido afetado
+            colocamos o código da cidade e o défice no vetor
+    metemos a station e o vetor no map
+ */
+
 //THIS IS CODE THAT I HAD BEEN USING, MAY BE HELPFUL. DELETE BEFORE SUBMISSION
 /*
     // Display the analysis results
@@ -258,3 +268,38 @@ void Actions::analyzePumpingStations(Graph& g) {
         }
     }
      */
+
+
+void Actions::crucialPipelines(Graph& g) {
+    map<string, vector<AffectedCity>> pipe_city;
+    Actions a(reservoirs, stations, cities, pipes);
+    //Map that will store the flow in the city before removing the vertex (for comparison later on)
+    map<string, int> initialFlowMap = a.maxFlowAllCities(g);
+    for (auto& pipe: pipes) {
+        // Generate pipe code using service points and capacity
+        string pipeCode = pipe.getPointA() + "_" + pipe.getPointB() + "_" + to_string(pipe.getCapacity());
+        int capacity = pipe.getCapacity();
+        pipe.setCapacity(0);
+
+        map<string, int> currentFlowMap = a.maxFlowAllCities(g);
+        vector<AffectedCity> affectedCities;
+        for (const auto &city: cities) {
+            // Check if the city's water supply is affected
+            if (currentFlowMap[city.getCode()] < initialFlowMap[city.getCode()]) { //current flow different from the initial
+                // Record the affected city and its water supply deficit
+                int deficit = initialFlowMap.at(city.getCode()) - a.maxFlowSpecificCity(g, city.getCode());
+                affectedCities.push_back({city.getCode(), deficit});
+            }
+        }
+        pipe_city.insert({pipeCode, affectedCities});
+        affectedCities.clear();
+        pipe.setCapacity(capacity);
+    }
+}
+
+/*
+ preciso de um mapa em que a chave vai ser o código da pipe e o valor um vetor das cidades afetadas
+ iterar as pipes
+ fazer pipe->setCapacity = 0
+ ver as cidades afetadas, calcular o seu défice
+ */

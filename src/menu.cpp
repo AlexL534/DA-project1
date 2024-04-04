@@ -28,22 +28,34 @@ void menu(Graph& graph, Actions& actions){
                 std::cout << "2. See the maximum amount of water that can reach each city\n";
                 int subChoice;
                 std::cin >> subChoice;
+                std::cin.ignore();  // Ignore the newline character left in the input buffer by std::cin
                 if(subChoice == 1) {
                     std::string city;
-                    std::cout << "Enter the city code: ";
-                    std::cin >> city;
+                    int maxFlow;
+                    int checkAnotherCity;
+                    do {
+                        std::cout << "Enter the city code: ";
+                        std::cin >> city;
 
-                    int maxFlow = actions.maxFlowSpecificCity(graph, city);
+                        try {
+                            maxFlow = actions.maxFlowSpecificCity(graph, city);
+                            std::cout << "The maximum amount of water that can reach " << city << " is " << maxFlow << std::endl;
+                        } catch (const std::invalid_argument& e) {
+                            std::cout << "Invalid city code. Please try again.\n";
+                            continue;
+                        }
 
-                    std::cout << "The maximum amount of water that can reach " << city << " is " << maxFlow << std::endl;
+                        std::cout << "Do you want to check another city?\n";
+                        std::cout << "1. Yes\n";
+                        std::cout << "2. No\n";
+                        std::cin >> checkAnotherCity;
+                    } while (checkAnotherCity == 1);
                 } else if(subChoice == 2) {
-                    // Call the function to determine the maximum amount of water that can reach each city
                     map<string, int> cityFlow = actions.maxFlowAllCities(graph);
 
                     for(auto it : cityFlow){
                         std::cout << it.first << ' ' << it.second << std::endl;
                     }
-
                 }
                 else {
                     std::cout << "Invalid choice. Please enter 1 or 2.\n";
@@ -64,7 +76,7 @@ void menu(Graph& graph, Actions& actions){
                 graph = g.buildGraph(parseReservoirs(),parseStations(),parsePipes(),parseCities());
                 break;
             case 6:
-                // Call the function to determine which pipelines, if ruptured, would make it impossible to deliver the desired amount of water to a given city
+                actions.crucialPipelines(graph);
                 break;
             case 7:
                 std::cout << "Exiting the program.\n";

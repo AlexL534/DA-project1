@@ -21,9 +21,10 @@ class Actions {
 
 public:
     Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_);
-    int maxFlowSpecificCity(Graph& g, string city);
-    map<string, int> maxFlowAllCities(Graph& g);
-    void balanceAndCalculateMetrics(Graph& g);
+    int maxFlowSpecificCity(Graph& g, string city); //2.1
+    map<string, int> maxFlowAllCities(Graph& g); //2.1
+    void balanceAndCalculateMetrics(Graph& g); //2.3
+    void analyzePumpingStations(Graph& g); //3.2
 };
 
 

@@ -13,7 +13,6 @@
 std::vector<Reservoir> parseReservoirs() {
     std::vector<Reservoir> reservoirs;
     std::ifstream file("../Dataset/Reservoir.csv");
-
     if (!file.is_open()) {
         std::cout << "Error: Unable to open Reservoir.csv\n";
         return reservoirs;

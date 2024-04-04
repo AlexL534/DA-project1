@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Actions.h"
 
-
 void menu(Graph& graph, Actions& actions){
     int choice;
     do {
@@ -20,6 +19,8 @@ void menu(Graph& graph, Actions& actions){
         std::cout << "7. Exit\n";
         std::cout << "Enter your choice: ";
         std::cin >> choice;
+
+        Graph g;
 
         switch(choice) {
             case 1:
@@ -59,7 +60,8 @@ void menu(Graph& graph, Actions& actions){
                 // Call the function to evaluate the network's resiliency if one specific water reservoir is out of commission
                 break;
             case 5:
-                // Call the function to check if any pumping station can be temporarily taken out of service without affecting the delivery capacity
+                actions.analyzePumpingStations(graph);
+                graph = g.buildGraph(parseReservoirs(),parseStations(),parsePipes(),parseCities());
                 break;
             case 6:
                 // Call the function to determine which pipelines, if ruptured, would make it impossible to deliver the desired amount of water to a given city
@@ -84,7 +86,8 @@ void menu(Graph& graph, Actions& actions){
             if (continueChoice == 2) {
                 std::cout << "Exiting the program.\n";
                 return; // Exit the menu loop and the function
-            } else if (continueChoice != 1) {
+            }
+            else if (continueChoice != 1) {
                 std::cout << "Invalid choice. Please enter 1 or 2.\n";
             }
         } while (continueChoice != 1);

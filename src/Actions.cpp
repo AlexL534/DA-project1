@@ -146,3 +146,115 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     g.removeVertex("Si");
     g.removeVertex("S");
 }
+
+
+void Actions::analyzePumpingStations(Graph& g) {
+    int count = 0; //number of stations that can be removed
+    vector<string> canBeRemoved;
+    //struct that will be helpful for the function
+    struct AffectedCity {
+        string code; // Código da cidade
+        int deficit; // Déficit no fornecimento de água para a cidade
+    };
+    map<string, vector<AffectedCity>> station_city;
+
+    Actions a(reservoirs, stations, cities, pipes);
+
+    //Map that will store the flow in the city before removing the vertex (for comparison later on)
+    map<string, int> initialFlowMap = a.maxFlowAllCities(g);
+
+    // Iterate through each pumping station in the network
+    for (const auto& station: stations) {
+        bool cityWaterSupplyAffected = false;
+
+        // Create a copy of the original graph
+        Graph tempGraph = g;
+
+        // Temporarily remove the current pumping station from the network
+        tempGraph.removeVertex(station.getCode());
+
+        // Map to store the flow in each city after removing the pumping station
+        map<string, int> currentFlowMap = a.maxFlowAllCities(tempGraph);
+
+        // Vector to store information about affected cities
+        vector<AffectedCity> affectedCities; //will store the codes
+
+        // Iterate through each city in the network
+        for (const auto &city: cities) {
+            // Check if the city's water supply is affected
+            if (currentFlowMap[city.getCode()] < initialFlowMap[city.getCode()]) { //current flow different from the initial
+                // Record the affected city and its water supply deficit
+                int deficit = initialFlowMap.at(city.getCode()) - currentFlowMap[city.getCode()];
+                affectedCities.push_back({city.getCode(), deficit});
+                cityWaterSupplyAffected = true;
+            }
+        }
+        //Insert the affectedCities vector on the map
+        station_city.insert({station.getCode(), affectedCities});
+
+
+        if (!cityWaterSupplyAffected) {
+            count++;
+            canBeRemoved.push_back(station.getCode());
+        }
+        affectedCities.clear();
+    }
+    if (count == 0) {
+        cout << "There are no pumping stations that can be temporarily taken out of service." << endl;
+    } else {
+        cout << "There are " << count << " pumping stations that can be temporarily taken out of service: ";
+        for (auto s: canBeRemoved) {cout<<s;}
+        cout << endl;
+    }
+
+    int choice;
+    cout << "Do you wish to see the cities affected by the removal of a certain pumping station?" << endl;
+    cout << "1. Yes" << endl;
+    cout << "2. No" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        do {
+            string stationCode;
+            cout << "Enter the code of the pumping station: ";
+            cin >> stationCode;
+
+            // Display affected cities for the specified pumping station
+            if (station_city.find(stationCode) != station_city.end()) {
+                cout << "Pumping station " << stationCode << " affects the following cities:" << endl;
+                for (const auto &city: station_city[stationCode]) {
+                    cout << "City " << city.code << " has a water supply deficit of " << city.deficit << endl;
+                }
+            } else {
+                cout << "Invalid pumping station code." << endl;
+            }
+
+            // Ask the user if they want to check another pumping station
+            cout << "Do you want to check another pumping station?\n";
+            cout << "1. Yes\n";
+            cout << "2. No\n";
+            char answer;
+            cin >> answer;
+            if (answer == '2') break;
+        } while(true);
+    }
+}
+//THIS IS CODE THAT I HAD BEEN USING, MAY BE HELPFUL. DELETE BEFORE SUBMISSION
+/*
+    // Display the analysis results
+    for (const auto &entry: station_city) {
+        const string &stationCode = entry.first;
+        const vector<AffectedCity> &affectedCities = entry.second;
+
+        if (!affectedCities.empty()) {
+            cout << "Pumping station " << stationCode << " affects the following cities:" << endl;
+            for (const auto &city: affectedCities) {
+                cout << "City " << city.code << " has a water supply deficit of " << city.deficit << endl;
+            }
+        } else {
+            cout << "Pumping station " << stationCode
+                 << " can be temporarily removed without affecting any city's water supply." << endl;
+        }
+    }
+     */

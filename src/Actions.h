@@ -23,6 +23,7 @@ public:
     Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_);
     int maxFlowSpecificCity(Graph& g, string city);
     map<string, int> maxFlowAllCities(Graph& g);
+    map<string, int> citiesInNeed(Graph& g);
 };
 
 

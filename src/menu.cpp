@@ -1,10 +1,9 @@
-//
-// Created by Tomás Silva on 18/03/2024.
-//
 #include <iostream>
 #include "Actions.h"
 
 void menu(Graph& graph, Actions& actions){
+    std::vector<City> cities = parseCities();
+    std::map<std::string, std::string> cityCodeMap = createCityCodeMap(cities);
     int choice;
     do {
         std::cout << "-------------------------------------------------------\n";
@@ -30,31 +29,29 @@ void menu(Graph& graph, Actions& actions){
                 std::cin >> subChoice;
                 std::cin.ignore();  // Ignore the newline character left in the input buffer by std::cin
                 if(subChoice == 1) {
-                    std::string city;
-                    int maxFlow;
-                    int checkAnotherCity;
-                    do {
-                        std::cout << "Enter the city code: ";
-                        std::cin >> city;
+                    std::string cityName;
+                    std::cout << "Enter the city name: ";
+                    std::cin >> cityName;
 
-                        try {
-                            maxFlow = actions.maxFlowSpecificCity(graph, city);
-                            std::cout << "The maximum amount of water that can reach " << city << " is " << maxFlow << std::endl;
-                        } catch (const std::invalid_argument& e) {
-                            std::cout << "Invalid city code. Please try again.\n";
-                            continue;
-                        }
+                    std::string cityCode = cityCodeMap[cityName];
 
-                        std::cout << "Do you want to check another city?\n";
-                        std::cout << "1. Yes\n";
-                        std::cout << "2. No\n";
-                        std::cin >> checkAnotherCity;
-                    } while (checkAnotherCity == 1);
+                    int maxFlow = actions.maxFlowSpecificCity(graph, cityCode);
+
+                    std::cout << "The maximum amount of water that can reach " << cityName << " is " << maxFlow << " m^3/s" << std::endl;
                 } else if(subChoice == 2) {
                     map<string, int> cityFlow = actions.maxFlowAllCities(graph);
 
                     for(auto it : cityFlow){
-                        std::cout << it.first << ' ' << it.second << std::endl;
+                        // Get the city name from the city code
+                        string cityName;
+                        for (auto& city : cityCodeMap) {
+                            if (city.second == it.first) {
+                                cityName = city.first;
+                                break;
+                            }
+                        }
+
+                        std::cout << cityName << ' ' << it.second << " m^3/s" << std::endl;
                     }
                 }
                 else {

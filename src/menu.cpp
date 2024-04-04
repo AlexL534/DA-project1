@@ -5,6 +5,8 @@
 #include "Actions.h"
 
 void menu(Graph& graph, Actions& actions){
+    std::vector<City> cities = parseCities();
+    std::map<std::string, std::string> cityCodeMap = createCityCodeMap(cities);
     int choice;
     do {
         std::cout << "-------------------------------------------------------\n";
@@ -29,19 +31,30 @@ void menu(Graph& graph, Actions& actions){
                 int subChoice;
                 std::cin >> subChoice;
                 if(subChoice == 1) {
-                    std::string city;
-                    std::cout << "Enter the city code: ";
-                    std::cin >> city;
+                    std::string cityName;
+                    std::cout << "Enter the city name: ";
+                    std::cin >> cityName;
 
-                    int maxFlow = actions.maxFlowSpecificCity(graph, city);
+                    std::string cityCode = cityCodeMap[cityName];
 
-                    std::cout << "The maximum amount of water that can reach " << city << " is " << maxFlow << std::endl;
+                    int maxFlow = actions.maxFlowSpecificCity(graph, cityCode);
+
+                    std::cout << "The maximum amount of water that can reach " << cityName << " is " << maxFlow << " m^3/s" << std::endl;
                 } else if(subChoice == 2) {
                     // Call the function to determine the maximum amount of water that can reach each city
                     map<string, int> cityFlow = actions.maxFlowAllCities(graph);
 
                     for(auto it : cityFlow){
-                        std::cout << it.first << ' ' << it.second << std::endl;
+                        // Get the city name from the city code
+                        string cityName;
+                        for (auto& city : cityCodeMap) {
+                            if (city.second == it.first) {
+                                cityName = city.first;
+                                break;
+                            }
+                        }
+
+                        std::cout << cityName << ' ' << it.second << " m^3/s" << std::endl;
                     }
 
                 }

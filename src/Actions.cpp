@@ -48,5 +48,15 @@ map<string, int> Actions::maxFlowAllCities(Graph& g) {
     return City_flow;
 }
 
+map<string, int> Actions::citiesInNeed(Graph &g) {
+    map<string, int> m;
+    map<string, int> res;
+    m = maxFlowAllCities(g);
+    for(auto it:cities){
+        float value = (float) m[it.getCode()];
+        if(it.getDemand() - value > 0) res[it.getCode()] = it.getDemand() - value;
+    }
+    return res;
+}
 
 Actions::Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_): reservoirs(reservoirs_), stations(stations_), cities(cities_), pipes(pipes_) {}

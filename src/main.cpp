@@ -21,10 +21,16 @@ int main() {
 
     graph = g.buildGraph(reservoirs, stations, pipes, cities);
 
-    map<string, int> aaa = a.maxFlowAllCities(graph);
-    for(auto it : aaa){
+    auto aa = a.citiesInNeed(graph);
+
+    for(auto it:aa){
         cout << endl << it.first << ' ' << it.second << endl;
     }
+
+    //map<string, int> aaa = a.maxFlowAllCities(graph);
+    //for(auto it : aaa){
+    //    cout << endl << it.first << ' ' << it.second << endl;
+    //}
 
     //cout <<
     //a.maxFlowSpecificCity(graph, "C_15");

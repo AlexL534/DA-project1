@@ -29,6 +29,12 @@ public:
     string getCode() const;
     double getDemand() const;
     int getPopulation() const;
+    bool operator<(const City city) const{
+        return id < city.id;
+    }
+    bool operator==(const City city) const{
+        return code == city.code;
+    }
 };
 
 

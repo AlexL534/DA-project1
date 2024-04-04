@@ -87,10 +87,6 @@ vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-map<string,vector<Edge>> Graph::getEdgesSet() const {
-    return allEdges;
-}
-
 bool Vertex::isVisited() const {
     return visited;
 }

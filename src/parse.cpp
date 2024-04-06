@@ -122,10 +122,10 @@ std::vector<City> parseCities() {
     return cities;
 }
 
-std::map<std::string, std::string> createCityCodeMap(const std::vector<City>& cities) {
-    std::map<std::string, std::string> cityCodeMap;
+std::map<std::string, std::string> createCityNameMap(const std::vector<City>& cities) {
+    std::map<std::string, std::string> cityNameMap;
     for (const auto& city : cities) {
-        cityCodeMap[city.getName()] = city.getCode();
+        cityNameMap[city.getCode()] = city.getName();
     }
-    return cityCodeMap;
+    return cityNameMap;
 }

@@ -16,5 +16,5 @@ std::vector<Pipe> parsePipes();
 
 std::vector<City> parseCities();
 
-map<std::string, std::string> createCityCodeMap(const std::vector<City>& cities);
+std::map<std::string, std::string> createCityNameMap(const std::vector<City>& cities);
 #endif // PARSE_H

@@ -4,6 +4,7 @@
 void menu(Graph& graph, Actions& actions){
     std::vector<City> cities = parseCities();
     std::map<std::string, std::string> cityCodeMap = createCityCodeMap(cities);
+    map<string, int> citiesInNeed;
     int choice;
     do {
         std::cout << "-------------------------------------------------------\n";
@@ -59,7 +60,16 @@ void menu(Graph& graph, Actions& actions){
                 }
                 break;
             case 2:
-                // Call the function to check if an existing network configuration can meet the water needs of its customer
+                citiesInNeed = actions.citiesInNeed(graph);
+                for(auto it:cities){
+                    float value = (float) citiesInNeed[it.getCode()];
+                    if(it.getDemand() - value > 0) {
+                        cout << it.getCode() << "-" << it.getName() << endl;
+                        cout << "Demand: " << it.getDemand() << endl;
+                        cout << "Deficit: " << it.getDemand() - value << endl;
+                        cout << "Actual Flow: " << value << endl;
+                    }
+                }
                 break;
             case 3:{
                 actions.balanceAndCalculateMetrics(graph);

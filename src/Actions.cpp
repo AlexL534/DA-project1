@@ -297,7 +297,7 @@ void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const s
             int initialFlow = it->second;
             int currentFlow = currentFlowMap[city.getCode()];
             if (currentFlow < initialFlow) {
-                deficits[city.getCode()] = initialFlow - currentFlow;
+                deficits[city.getCode()] = city.getDemand() - currentFlow;
             }
         }
     }

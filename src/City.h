@@ -27,7 +27,7 @@ public:
     string getName() const;
     int getId() const;
     string getCode() const;
-    double getDemand() const;
+    float getDemand() const;
     int getPopulation() const;
     bool operator<(const City city) const{
         return id < city.id;

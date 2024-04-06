@@ -3,7 +3,7 @@
 
 void menu(Graph& graph, Actions& actions){
     std::vector<City> cities = parseCities();
-    std::map<std::string, std::string> cityCodeMap = createCityCodeMap(cities);
+    std::map<std::string, std::string> cityNameMap = createCityNameMap(cities);
     int choice;
     do {
         std::cout << "-------------------------------------------------------\n";
@@ -29,11 +29,11 @@ void menu(Graph& graph, Actions& actions){
                 std::cin >> subChoice;
                 std::cin.ignore();  // Ignore the newline character left in the input buffer by std::cin
                 if(subChoice == 1) {
-                    std::string cityName;
-                    std::cout << "Enter the city name: ";
-                    std::cin >> cityName;
+                    std::string cityCode;
+                    std::cout << "Enter the city code: ";
+                    std::cin >> cityCode;
 
-                    std::string cityCode = cityCodeMap[cityName];
+                    std::string cityName = cityNameMap[cityCode];
 
                     int maxFlow = actions.maxFlowSpecificCity(graph, cityCode);
 
@@ -44,7 +44,7 @@ void menu(Graph& graph, Actions& actions){
                     for(auto it : cityFlow){
                         // Get the city name from the city code
                         string cityName;
-                        for (auto& city : cityCodeMap) {
+                        for (auto& city : cityNameMap) {
                             if (city.second == it.first) {
                                 cityName = city.first;
                                 break;

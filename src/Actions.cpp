@@ -238,35 +238,117 @@ void Actions::analyzePumpingStations(Graph& g) {
 }
 
 void Actions::crucialPipelines(Graph& g) {
-    map<string, vector<AffectedCity>> pipe_city;
     Actions a(reservoirs, stations, cities, pipes);
-    //Map that will store the flow in the city before removing the vertex (for comparison later on)
-    map<string, int> initialFlowMap = a.maxFlowAllCities(g);
-    for (auto& pipe: pipes) {
-        // Generate pipe code using service points and capacity
-        string pipeCode = pipe.getPointA() + "_" + pipe.getPointB() + "_" + to_string(pipe.getCapacity());
-        int capacity = pipe.getCapacity();
-        pipe.setCapacity(0);
+    map<string, int> originalFlowMap = a.maxFlowAllCities(g);
 
-        map<string, int> currentFlowMap = a.maxFlowAllCities(g);
-        vector<AffectedCity> affectedCities;
-        for (const auto &city: cities) {
-            // Check if the city's water supply is affected
-            if (currentFlowMap[city.getCode()] < initialFlowMap[city.getCode()]) { //current flow different from the initial
-                // Record the affected city and its water supply deficit
-                int deficit = initialFlowMap.at(city.getCode()) - a.maxFlowSpecificCity(g, city.getCode());
-                affectedCities.push_back({city.getCode(), deficit});
-            }
+    for (auto& pipe : pipes) {
+        string source = pipe.getPointA();
+        string dest = pipe.getPointB();
+        int direction = pipe.getDirection();
+
+        Edge* edge = nullptr;
+        Edge* edge2 = nullptr; // For bidirectional pipes
+
+        if (direction == 1) {
+            edge = g.findEdge(source, dest);
+        } else { // Bidirectional
+            edge = g.findEdge(source, dest);
+            edge2 = g.findEdge(dest, source);
         }
-        pipe_city.insert({pipeCode, affectedCities});
-        affectedCities.clear();
-        pipe.setCapacity(capacity);
+
+        if (edge == nullptr) {
+            // Handle edge not found
+            continue;
+        }
+
+        // Handle unidirectional pipes
+        if (direction == 1) {
+            handleUnidirectionalPipe(edge, source, dest, originalFlowMap, a, g);
+        } else { // Handle bidirectional pipes
+            handleBidirectionalPipe(edge, edge2, source, dest, originalFlowMap, a, g);
+        }
     }
 }
 
-/*
- preciso de um mapa em que a chave vai ser o código da pipe e o valor um vetor das cidades afetadas
- iterar as pipes
- fazer pipe->setCapacity = 0
- ver as cidades afetadas, calcular o seu défice
- */
+void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,
+                                       const map<string, int>& originalFlowMap,
+                                       Actions& a, Graph& g) {
+    int originalCapacity = edge->getCapacity();
+    int originalFlow = edge->getFlow();
+    edge->setCapacity(0);
+    edge->setFlow(0);
+
+    map<string, int> currentFlowMap = a.maxFlowAllCities(g);
+
+    map<string,int> deficits;
+    for (const auto &city: cities) {
+        auto it = originalFlowMap.find(city.getCode());
+        if (it != originalFlowMap.end()) {
+            int initialFlow = it->second;
+            int currentFlow = currentFlowMap[city.getCode()];
+            if (currentFlow < initialFlow) {
+                deficits[city.getCode()] = initialFlow - currentFlow;
+            }
+        }
+    }
+
+    edge->setCapacity(originalCapacity);
+    edge->setFlow(originalFlow);
+
+    if (!deficits.empty()) {
+        cout << source << " - " << dest << " is removed. Cities affected:" << endl;
+        for (const auto& pair : deficits) {
+            cout << "City " << pair.first << " has a water supply deficit of " << pair.second << endl;
+        }
+        cout << endl;
+    } else {
+        cout << source << " - " << dest << " is removed. No city is affected." << endl;
+    }
+}
+
+
+void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source, const string& dest,
+                                      const map<string, int>& originalFlowMap,
+                                      Actions& a, Graph& g) {
+    int originalCapacity1 = edge1->getCapacity();
+    int originalFlow1 = edge1->getFlow();
+    edge1->setCapacity(0);
+    edge1->setFlow(0);
+
+    int originalCapacity2 = edge2->getCapacity();
+    int originalFlow2 = edge2->getFlow();
+    edge2->setCapacity(0);
+    edge2->setFlow(0);
+
+    map<string, int> currentFlowMap = a.maxFlowAllCities(g);
+
+    map<string,int> deficits;
+    for (const auto &city: cities) {
+        auto it = originalFlowMap.find(city.getCode());
+        if (it != originalFlowMap.end()) {
+            int initialFlow = it->second;
+            int currentFlow = currentFlowMap[city.getCode()];
+            if (currentFlow < initialFlow) {
+                deficits[city.getCode()] = initialFlow - currentFlow;
+            }
+        }
+    }
+
+    edge1->setCapacity(originalCapacity1);
+    edge1->setFlow(originalFlow1);
+    edge2->setCapacity(originalCapacity2);
+    edge2->setFlow(originalFlow2);
+
+    if (!deficits.empty()) {
+        cout << source << " - " << dest << " is removed. Cities affected:" << endl;
+        for (const auto& pair : deficits) {
+            cout << "City " << pair.first << " has a water supply deficit of " << pair.second << endl;
+        }
+        cout << endl;
+    } else {
+        cout << source << " - " << dest << " is removed. No city is affected." << endl;
+    }
+}
+
+
+

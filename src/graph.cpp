@@ -143,17 +143,13 @@ bool Graph::addVertex(const std::string& in, VertexType t, int id) {
     return true;
 }
 
-Edge Graph::findEdge(const std::string& source, const std::string& dest) {
-    for (auto e: allEdges[source]){
-        if(dest == e.dest->info){
-            return e;
+Edge* Graph::findEdge(const std::string& source, const std::string& dest) {
+    for (auto& e : allEdges[source]) {
+        if (dest == e.dest->getInfo()) {
+            return &e;
         }
     }
     return nullptr;
-}
-
-map<string, vector<Edge>> Graph::getAllEdges() {
-    return allEdges;
 }
 
 bool Graph::addEdge(const std::string& source, const std::string& dest, int direction, int capacity) {

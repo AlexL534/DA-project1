@@ -92,7 +92,7 @@ public:
     Graph() = default;
     Vertex *findVertex(const std::string &in) const;
     int getNumVertex() const;
-    Edge findEdge(const std::string& source, const std::string& dest);
+    Edge* findEdge(const std::string& source, const std::string& dest);
     bool addVertex(const std::string &in, VertexType t, int id);
     bool removeVertex(const std::string &in);
     bool removePath(Edge * e);
@@ -107,6 +107,5 @@ public:
     void updateFlow(Vertex* src, Vertex* snk, int flow);
     void edmondsKarp(const std::string &source, const std::string &sink);
     Graph buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities);
-    map<string, vector<Edge>> getAllEdges();
 };
 #endif

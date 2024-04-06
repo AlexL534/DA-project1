@@ -29,6 +29,8 @@ public:
     int getCapacity() const;
 
     int getDirection() const;
+
+    void setCapacity(int capacity);
 };
 
 

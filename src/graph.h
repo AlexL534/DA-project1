@@ -72,6 +72,7 @@ public:
     Edge(Vertex *d);
     Edge(Vertex *s, Vertex *d, int ca);
     Vertex *getDest() const;
+    Vertex *getSource() const;
     void setDest(Vertex *dest);
     int getWeight() const;
     int getFlow() const;
@@ -90,19 +91,19 @@ public:
     Graph() = default;
     Vertex *findVertex(const std::string &in) const;
     int getNumVertex() const;
-    Edge findEdge(const std::string& source, const std::string& dest);
+    Edge* findEdge(const std::string& source, const std::string& dest);
     bool addVertex(const std::string &in, VertexType t, int id);
     bool removeVertex(const std::string &in);
     bool removePath(Edge * e);
     bool addEdge(const std::string &source, const std::string &dest, int direction, int capacity);
     bool removeEdge(const std::string &source, const std::string &dest);
     vector<Vertex*> getVertexSet() const;
+    std::vector<Edge*> getAdjacentEdges(const std::string& vertexInfo) const;
+    map<string,vector<Edge>> getEdgesSet() const;
     void dfsVisit(Vertex *v, vector<std::string>& res) const;
     vector<std::string> dfs(const std::string &source) const;
     bool bfs(Vertex* src, Vertex* snk);
     void updateFlow(Vertex* src, Vertex* snk, int flow);
     void edmondsKarp(const std::string &source, const std::string &sink);
     Graph buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities);
-
 };
-

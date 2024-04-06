@@ -29,3 +29,7 @@ int Pipe::getCapacity() const {
 int Pipe::getDirection() const {
     return this->direction;
 }
+
+void Pipe::setCapacity(int capacity) {
+    this->capacity = capacity;
+}

@@ -320,38 +320,20 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
 
     while(bfs(src, snk)){
 
-        //cout << endl<< "all flows : " << endl;
-
-        for(auto it:vertexSet){
-            for(auto it2:it->adj){
-                //cout <<endl<< it2->src->info<< " to " << it2->dest->info << " capacity : " <<it2->capacity<< "flow : " << it2->flow;
-            }
-        }
-
         int flow = INT_MAX;
-        //cout << endl << "Min residual" << endl;
 
         for (auto it = snk; it!= src;){
             Edge* edge = it->getPrev();
             if(edge->getDest()->info == it->info){
-                //cout << "a";
                 it = edge->src;
-                //cout <<endl<< "A : " << edge->getCapacity() << ' ' << edge->getFlow();
                 flow = std::min(flow, edge->getCapacity() - edge->getFlow());
             }
             else {
                 it = edge->getDest();
-                //cout <<endl<< "B : " << edge->getCapacity() << ' ' << edge->getFlow();
                 flow = std::min(flow, edge->getFlow());
             }
         }
-
-
-
         updateFlow(src, snk, flow);
-
     }
-
-
 }
 

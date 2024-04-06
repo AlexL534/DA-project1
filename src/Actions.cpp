@@ -165,8 +165,10 @@ void Actions::analyzePumpingStations(Graph& g) {
         // Create a copy of the original graph
         Graph tempGraph = g;
 
-        // Temporarily remove the current pumping station from the network
-        tempGraph.removeVertex(station.getCode());
+        for (auto& edge : tempGraph.getAdjacentEdges(station.getCode())) {
+            edge->setCapacity(0);
+            edge->setFlow(0);
+        }
 
         // Map to store the flow in each city after removing the pumping station
         map<string, int> currentFlowMap = a.maxFlowAllCities(tempGraph);
@@ -192,7 +194,6 @@ void Actions::analyzePumpingStations(Graph& g) {
             count++;
             canBeRemoved.push_back(station.getCode());
         }
-        affectedCities.clear();
     }
     if (count == 0) {
         cout << "There are no pumping stations that can be temporarily taken out of service." << endl;
@@ -235,40 +236,6 @@ void Actions::analyzePumpingStations(Graph& g) {
         } while(true);
     }
 }
-
-/* Explicação da função
- the function stores the number of stations that can be removed
- inicializamos um mapa em que a chave é o código da station e o valor é um vetor com as cidades afetadas
- it initializes a map, initialFlowMap with the flow of each city before removal
- vai iterar as stations
-    sempre que iterar vai criar um tempGraph que é uma cópia do inicial, e remover uma station
-    inicializamos outro mapa com o flow de cada cidade para o grafo sem uma station
-    é criado um vetor onde serão armazendas as cidades afetadas
-    iteramos por todas as cidades
-        se o flow tiver sido afetado
-            colocamos o código da cidade e o défice no vetor
-    metemos a station e o vetor no map
- */
-
-//THIS IS CODE THAT I HAD BEEN USING, MAY BE HELPFUL. DELETE BEFORE SUBMISSION
-/*
-    // Display the analysis results
-    for (const auto &entry: station_city) {
-        const string &stationCode = entry.first;
-        const vector<AffectedCity> &affectedCities = entry.second;
-
-        if (!affectedCities.empty()) {
-            cout << "Pumping station " << stationCode << " affects the following cities:" << endl;
-            for (const auto &city: affectedCities) {
-                cout << "City " << city.code << " has a water supply deficit of " << city.deficit << endl;
-            }
-        } else {
-            cout << "Pumping station " << stationCode
-                 << " can be temporarily removed without affecting any city's water supply." << endl;
-        }
-    }
-     */
-
 
 void Actions::crucialPipelines(Graph& g) {
     map<string, vector<AffectedCity>> pipe_city;

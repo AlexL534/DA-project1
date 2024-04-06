@@ -56,6 +56,10 @@ Vertex* Edge::getDest() const {
     return dest;
 }
 
+Vertex* Edge::getSource() const {
+    return src;
+}
+
 void Edge::setDest(Vertex* d) {
     dest = d;
 }
@@ -87,6 +91,17 @@ vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
+std::vector<Edge*> Graph::getAdjacentEdges(const std::string& vertexInfo) const {
+    std::vector<Edge*> adjacentEdges;
+    for (auto v : vertexSet) {
+        if (v->getInfo() == vertexInfo) {
+            adjacentEdges = v->getAdj();
+            break;
+        }
+    }
+    return adjacentEdges;
+}
+
 bool Vertex::isVisited() const {
     return visited;
 }
@@ -102,6 +117,8 @@ int Vertex::getIndegree() const {
 void Vertex::setIndegree(int ind) {
     indegree = ind;
 }
+
+
 
 std::vector<Edge*> Vertex::getAdj() const {
     return adj;
@@ -133,6 +150,10 @@ Edge Graph::findEdge(const std::string& source, const std::string& dest) {
         }
     }
     return nullptr;
+}
+
+map<string, vector<Edge>> Graph::getAllEdges() {
+    return allEdges;
 }
 
 bool Graph::addEdge(const std::string& source, const std::string& dest, int direction, int capacity) {

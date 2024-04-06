@@ -12,7 +12,7 @@
 
 std::vector<Reservoir> parseReservoirs() {
     std::vector<Reservoir> reservoirs;
-    std::ifstream file("../Project1DataSetSmall/Reservoirs_Madeira.csv");
+    std::ifstream file("../Dataset/Reservoir.csv");
     if (!file.is_open()) {
         std::cout << "Error: Unable to open Reservoir.csv\n";
         return reservoirs;
@@ -39,7 +39,7 @@ std::vector<Reservoir> parseReservoirs() {
 
 std::vector<Station> parseStations() {
     std::vector<Station> stations;
-    std::ifstream file("../Project1DataSetSmall/Stations_Madeira.csv");
+    std::ifstream file("../Dataset/Stations.csv");
 
     if (!file.is_open()) {
         std::cout << "Error: Unable to open Station.csv\n";
@@ -65,7 +65,7 @@ std::vector<Station> parseStations() {
 
 std::vector<Pipe> parsePipes() {
     std::vector<Pipe> pipes;
-    std::ifstream file("../Project1DataSetSmall/Pipes_Madeira.csv");
+    std::ifstream file("../Dataset/Pipes.csv");
 
     if (!file.is_open()) {
         std::cout << "Error: Unable to open Pipes.csv\n";
@@ -93,7 +93,7 @@ std::vector<Pipe> parsePipes() {
 
 std::vector<City> parseCities() {
     std::vector<City> cities;
-    std::ifstream file("../Project1DataSetSmall/Cities_Madeira.csv");
+    std::ifstream file("../Dataset/Cities.csv");
 
     if (!file.is_open()) {
         std::cout << "Error: Unable to open Cities.csv\n";

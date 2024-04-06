@@ -28,7 +28,7 @@ string City::getCode() const {
     return this->code;
 }
 
-double City::getDemand() const {
+float City::getDemand() const {
     return this->demand;
 }
 

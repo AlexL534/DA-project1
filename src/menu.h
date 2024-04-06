@@ -1,7 +1,3 @@
-//
-// Created by Tomás Silva on 18/03/2024.
-//
-
 #include "Actions.h"
 
 #ifndef WATER_SUPPLY_MANAGEMENT_MENU_H

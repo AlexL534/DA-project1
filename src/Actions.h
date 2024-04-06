@@ -32,8 +32,7 @@ public:
     void crucialPipelines(Graph& g); //3.3
     void handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source,const string& dest, const map<string, int>& originalFlowMap,Actions& a, Graph& g);
     void handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,const map<string, int>& originalFlowMap,Actions& a, Graph& g);
-    void crucial(Graph& g);
-
+    map<string, int> citiesInNeed(Graph& g);
 };
 
 

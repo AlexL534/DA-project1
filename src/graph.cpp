@@ -176,14 +176,6 @@ void Vertex::addEdge(Vertex* src, Vertex* dest, int capacity) {
     dest->path.push_back(edge);
 }
 
-bool Graph::removeEdge(const std::string& source, const std::string& dest) {
-    auto v1 = findVertex(source);
-    auto v2 = findVertex(dest);
-    if (v1 == nullptr || v2 == nullptr)
-        return false;
-    return v1->removeEdgeTo(v2);
-}
-
 bool Vertex::removeEdgeTo(Vertex* d) {
     for (auto it = adj.begin(); it != adj.end(); it++)
         if ((*it)->dest == d) {
@@ -192,6 +184,8 @@ bool Vertex::removeEdgeTo(Vertex* d) {
         }
     return false;
 }
+
+
 
 bool Graph::removeVertex(const std::string& in) {
     for (auto it = vertexSet.begin(); it != vertexSet.end(); it++){

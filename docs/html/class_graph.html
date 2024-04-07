@@ -87,9 +87,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a367936fd417251cb1e1738cf6662b3db" id="r_a367936fd417251cb1e1738cf6662b3db"><td class="memItemLeft" align="right" valign="top"><a id="a367936fd417251cb1e1738cf6662b3db" name="a367936fd417251cb1e1738cf6662b3db"></a>
 <a class="el" href="class_vertex.html">Vertex</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>findVertex</b> (const std::string &amp;in) const</td></tr>
 <tr class="separator:a367936fd417251cb1e1738cf6662b3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb5e0517e2979c54eebdafc2a9875e8f" id="r_abb5e0517e2979c54eebdafc2a9875e8f"><td class="memItemLeft" align="right" valign="top"><a id="abb5e0517e2979c54eebdafc2a9875e8f" name="abb5e0517e2979c54eebdafc2a9875e8f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getNumVertex</b> () const</td></tr>
-<tr class="separator:abb5e0517e2979c54eebdafc2a9875e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7aa4d5820941f97654bcaaf397d3740" id="r_ae7aa4d5820941f97654bcaaf397d3740"><td class="memItemLeft" align="right" valign="top"><a id="ae7aa4d5820941f97654bcaaf397d3740" name="ae7aa4d5820941f97654bcaaf397d3740"></a>
 <a class="el" href="class_edge.html">Edge</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>findEdge</b> (const std::string &amp;source, const std::string &amp;dest)</td></tr>
 <tr class="separator:ae7aa4d5820941f97654bcaaf397d3740"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,9 +96,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getNumVertex</b> () co
 <tr class="memitem:ad5b9140e6a07d71e6e057dd4fb6d841e" id="r_ad5b9140e6a07d71e6e057dd4fb6d841e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5b9140e6a07d71e6e057dd4fb6d841e">removeVertex</a> (const std::string &amp;in)</td></tr>
 <tr class="memdesc:ad5b9140e6a07d71e6e057dd4fb6d841e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a vertex from the graph.  <br /></td></tr>
 <tr class="separator:ad5b9140e6a07d71e6e057dd4fb6d841e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a595902dcf08104494bfe601af9f33d2f" id="r_a595902dcf08104494bfe601af9f33d2f"><td class="memItemLeft" align="right" valign="top"><a id="a595902dcf08104494bfe601af9f33d2f" name="a595902dcf08104494bfe601af9f33d2f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>removePath</b> (<a class="el" href="class_edge.html">Edge</a> *e)</td></tr>
-<tr class="separator:a595902dcf08104494bfe601af9f33d2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae73490d736440e70ceab3b147f7cf8ef" id="r_ae73490d736440e70ceab3b147f7cf8ef"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae73490d736440e70ceab3b147f7cf8ef">addEdge</a> (const std::string &amp;source, const std::string &amp;dest, int direction, int capacity)</td></tr>
 <tr class="memdesc:ae73490d736440e70ceab3b147f7cf8ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an edge to the graph.  <br /></td></tr>
 <tr class="separator:ae73490d736440e70ceab3b147f7cf8ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,15 +108,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge</b> (const
 <tr class="memitem:a1ee7ccd8d2c5ffc11d6da62ddd9bb083" id="r_a1ee7ccd8d2c5ffc11d6da62ddd9bb083"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_edge.html">Edge</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ee7ccd8d2c5ffc11d6da62ddd9bb083">getAdjacentEdges</a> (const std::string &amp;vertexInfo) const</td></tr>
 <tr class="memdesc:a1ee7ccd8d2c5ffc11d6da62ddd9bb083"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Adjacent Edges object.  <br /></td></tr>
 <tr class="separator:a1ee7ccd8d2c5ffc11d6da62ddd9bb083"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a8b54a59ac208179ed771e17282a587" id="r_a1a8b54a59ac208179ed771e17282a587"><td class="memItemLeft" align="right" valign="top"><a id="a1a8b54a59ac208179ed771e17282a587" name="a1a8b54a59ac208179ed771e17282a587"></a>
-map&lt; string, vector&lt; <a class="el" href="class_edge.html">Edge</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getEdgesSet</b> () const</td></tr>
-<tr class="separator:a1a8b54a59ac208179ed771e17282a587"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad635174662ec1baeac20f26539267f53" id="r_ad635174662ec1baeac20f26539267f53"><td class="memItemLeft" align="right" valign="top"><a id="ad635174662ec1baeac20f26539267f53" name="ad635174662ec1baeac20f26539267f53"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>dfsVisit</b> (<a class="el" href="class_vertex.html">Vertex</a> *v, vector&lt; std::string &gt; &amp;res) const</td></tr>
 <tr class="separator:ad635174662ec1baeac20f26539267f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26d8cf8644a5fb66b7ffbd3048dfa91d" id="r_a26d8cf8644a5fb66b7ffbd3048dfa91d"><td class="memItemLeft" align="right" valign="top"><a id="a26d8cf8644a5fb66b7ffbd3048dfa91d" name="a26d8cf8644a5fb66b7ffbd3048dfa91d"></a>
-vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>dfs</b> (const std::string &amp;source) const</td></tr>
-<tr class="separator:a26d8cf8644a5fb66b7ffbd3048dfa91d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae251e1d26eb7415385790d183233c834" id="r_ae251e1d26eb7415385790d183233c834"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae251e1d26eb7415385790d183233c834">bfs</a> (<a class="el" href="class_vertex.html">Vertex</a> *src, <a class="el" href="class_vertex.html">Vertex</a> *snk)</td></tr>
 <tr class="memdesc:ae251e1d26eb7415385790d183233c834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a breadth-first search (BFS) traversal from a source vertex to a sink vertex.  <br /></td></tr>
 <tr class="separator:ae251e1d26eb7415385790d183233c834"><td class="memSeparator" colspan="2">&#160;</td></tr>

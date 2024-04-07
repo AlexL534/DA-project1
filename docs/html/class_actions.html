@@ -101,8 +101,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a930c982339c595c801c7a999718a9572" id="r_a930c982339c595c801c7a999718a9572"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a930c982339c595c801c7a999718a9572">balanceAndCalculateMetrics</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
 <tr class="memdesc:a930c982339c595c801c7a999718a9572"><td class="mdescLeft">&#160;</td><td class="mdescRight">Balances the water supply network and calculates the metrics.  <br /></td></tr>
 <tr class="separator:a930c982339c595c801c7a999718a9572"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6349d13f7efba35cf28266cc92cdcef9" id="r_a6349d13f7efba35cf28266cc92cdcef9"><td class="memItemLeft" align="right" valign="top"><a id="a6349d13f7efba35cf28266cc92cdcef9" name="a6349d13f7efba35cf28266cc92cdcef9"></a>
-<a class="el" href="class_graph.html">Graph</a>&#160;</td><td class="memItemRight" valign="bottom"><b>heuristic_evaluation</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memitem:a6349d13f7efba35cf28266cc92cdcef9" id="r_a6349d13f7efba35cf28266cc92cdcef9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_graph.html">Graph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6349d13f7efba35cf28266cc92cdcef9">heuristic_evaluation</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:a6349d13f7efba35cf28266cc92cdcef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform heuristic evaluation to optimize water flow in the graph.  <br /></td></tr>
 <tr class="separator:a6349d13f7efba35cf28266cc92cdcef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37e67336923b0a043cb599c70958fd83" id="r_a37e67336923b0a043cb599c70958fd83"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37e67336923b0a043cb599c70958fd83">calculateMetrics</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
 <tr class="memdesc:a37e67336923b0a043cb599c70958fd83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the metrics of the water supply network.  <br /></td></tr>
@@ -437,6 +437,33 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A map containing the cities in need of water supply and their respective deficits. </dd></dl>
+
+</div>
+</div>
+<a id="a6349d13f7efba35cf28266cc92cdcef9" name="a6349d13f7efba35cf28266cc92cdcef9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6349d13f7efba35cf28266cc92cdcef9">&#9670;&#160;</a></span>heuristic_evaluation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_graph.html">Graph</a> Actions::heuristic_evaluation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform heuristic evaluation to optimize water flow in the graph. </p>
+<p>This function conducts a heuristic evaluation of the water distribution network represented by the given graph to optimize water flow. It calculates the maximum flow for all cities in the network and adjusts the flow through edges based on predefined heuristic rules. The objective is to ensure that each city's demand is met efficiently while considering the capacities of pipes and reservoirs. The function returns the modified graph after applying the heuristic evaluation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water distribution network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_graph.html">Graph</a> The modified graph after heuristic evaluation. </dd></dl>
 
 </div>
 </div>

@@ -24,8 +24,23 @@ public:
 
     std::string getName() const;
     std::string getMunicipality() const;
+    /**
+     * @brief Get the id of the reservoir
+     *
+     * @return int
+     */
     int getId() const;
+    /**
+     * @brief Get the code of the reservoir
+     *
+     * @return string
+     */
     std::string getCode() const;
+    /**
+     * @brief Get the max delivery of the reservoir
+     *
+     * @return int
+     */
     int getMaxDelivery() const;
     bool operator<(const Reservoir r) const{
         return code < r.code;

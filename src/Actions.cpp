@@ -1,7 +1,9 @@
 #include "Actions.h"
 #include <cmath>
-//Max flow cidade especifica
 
+Actions::Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_): reservoirs(reservoirs_), stations(stations_), cities(cities_), pipes(pipes_) {}
+
+///////////////////////////////////////////2.1///////////////////////////////////////////
 int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
 
     int maxFlow = 0;
@@ -32,7 +34,6 @@ int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
         maxFlow += edge->getFlow();
     }
 
-
     g.removeVertex("Si");
     g.removeVertex("S");
 
@@ -48,19 +49,51 @@ map<string, int> Actions::maxFlowAllCities(Graph& g) {
     }
     return City_flow;
 }
-
+///////////////////////////////////////////2.2///////////////////////////////////////////
 map<string, int> Actions::citiesInNeed(Graph &g) {
     map<string, int> m;
     map<string, int> res;
     m = maxFlowAllCities(g);
-    for(auto it:cities){
+    for(auto it : cities){
         float value = (float) m[it.getCode()];
         if(it.getDemand() - value > 0) res[it.getCode()] = it.getDemand() - value;
     }
     return res;
 }
+///////////////////////////////////////////2.3///////////////////////////////////////////
+vector<double> Actions::calculateMetrics(Graph &g) {
+    // Calculate initial metrics
+    vector<double> res;
+    vector<int> diff;
+    int orig_max_diff = INT_MIN;
+    int sum = 0, count = 0;
+    double orig_average = 0, orig_variance = 0;
 
-Actions::Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_): reservoirs(reservoirs_), stations(stations_), cities(cities_), pipes(pipes_) {}
+    // Iterate over all vertices in the graph
+    for (Vertex* v : g.getVertexSet()) {
+        if (v->getInfo() != "S" && v->getInfo() != "Si") {
+            // Iterate over all edges adjacent to the current vertex
+            for (Edge *e: v->getAdj()) {
+                int d = e->getCapacity() - e->getFlow();
+                diff.push_back(d);
+                sum += d;
+                count++;
+                if (d > orig_max_diff) {
+                    orig_max_diff = d;
+                }
+            }
+        }
+    }
+    orig_average = sum / count;
+    for (int d : diff) {
+        orig_variance += pow(d - orig_average, 2);
+    }
+    orig_variance /= (count - 1);
+    res.push_back(orig_average);
+    res.push_back(orig_variance);
+    res.push_back(orig_max_diff);
+    return res;
+}
 
 void Actions::balanceAndCalculateMetrics(Graph& g) {
 
@@ -114,6 +147,101 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     cout << "And the maximum difference between capacity and flow of each pipe is: " << finalValues[2] << endl;
 
 }
+
+Graph Actions::heuristic_evaluation(Graph &g) {
+    vector<Edge*> edges;
+    map<string, int> m = maxFlowAllCities(g);
+
+    for(Vertex * it: g.getVertexSet()){
+        if (it->isType(VertexType::CITY)){
+            City city = cities[it->getId() -1];
+            float value = (float) m[it->getInfo()];
+            if(city.getDemand() - value == 0){
+                for(Edge * edge:it->getPath()){
+                    edges.push_back(edge);
+                }
+            }
+        }
+    }
+
+    map<City, vector<Edge*>> cityEdges;
+
+    for(auto it : edges){
+        City city = cities[it->getDest()->getId()-1];
+        cityEdges[city].push_back(it);
+    }
+
+    for(auto& c: cityEdges){
+        vector<Edge*> edgesToUse;
+        vector<Edge*> es = c.second;
+        int demand = (int) c.first.getDemand();
+        int nEdges = (int) c.second.size();
+        int bestDemand = demand/nEdges;
+
+        for(auto& edge: es){
+            auto path = edge->getSource()->getPath();
+            if(edge->getFlow() > bestDemand){
+                edgesToUse.push_back(edge);
+            }
+            else{
+                for(auto edge1 : path) {
+                    if(edge->getFlow() < edge1->getCapacity() && edge->getCapacity() < edge1->getCapacity()){
+                        edge->setFlow(edge->getCapacity());
+                    }
+                }
+
+            }
+
+        }
+        int currentDemand = demand;
+        if(edgesToUse.size() > 0){
+            bestDemand = demand / edgesToUse.size();
+            for(auto& it: edgesToUse){
+                if(currentDemand >= bestDemand){
+                    it->setFlow(bestDemand);
+                    currentDemand = currentDemand - bestDemand;
+                }
+                else{
+                    it->setFlow(currentDemand);
+                }
+            }
+            for(auto &it: edgesToUse){
+                if(it->getFlow() > it->getCapacity()){
+                    it->setFlow(it->getCapacity());
+                }
+            }
+        }
+    }
+    for(auto it: g.getVertexSet()){
+        if(it->isType(VertexType::RESERVOIR)){
+            auto reservoir = reservoirs[it->getId() - 1];
+            int max = reservoir.getMaxDelivery();
+            int waterInUse = 0;
+            for(auto edge:it->getAdj()){
+                waterInUse += edge->getFlow();
+            }
+            int curr_water = max - waterInUse;
+            if(curr_water > 0){
+                for(auto edge:it->getAdj()){
+                    int residual = edge->getCapacity() - edge->getFlow();
+                    if(residual > 0){
+                        if(curr_water - residual >= 0){
+                            edge->setFlow(edge->getCapacity());
+                            curr_water = curr_water - residual;
+                        }
+                        else if(curr_water > 0 && (edge->getCapacity() - edge->getFlow()) > curr_water){
+                            edge->setFlow(edge->getFlow() + curr_water);
+                            curr_water = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return g;
+}
+
+///////////////////////////////////////////3.1///////////////////////////////////////////
 
 void Actions::analyseReservoirs(Graph& g) {
     string reservoirCode;
@@ -169,6 +297,7 @@ void Actions::analyseReservoirs(Graph& g) {
 
 }
 
+///////////////////////////////////////////3.2///////////////////////////////////////////
 
 void Actions::analyzePumpingStations(Graph& g) {
     int count = 0; //number of stations that can be removed
@@ -259,42 +388,52 @@ void Actions::analyzePumpingStations(Graph& g) {
     }
 }
 
-void Actions::crucialPipelines(Graph& g) {
+///////////////////////////////////////////3.3///////////////////////////////////////////
+
+std::map<std::string, std::map<std::string, std::map<std::string, float>>> Actions::crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex) {
+    std::map<std::string, std::map<std::string, std::map<std::string, float>>> affectedCitiesMap; // Map to store affected cities
     Actions a(reservoirs, stations, cities, pipes);
     map<string, int> originalFlowMap = a.maxFlowAllCities(g);
 
-    for (auto& pipe : pipes) {
+    for (const auto& pipe : pipes) {
         string source = pipe.getPointA();
         string dest = pipe.getPointB();
         int direction = pipe.getDirection();
 
-        Edge* edge = nullptr;
-        Edge* edge2 = nullptr; // For bidirectional pipes
+        if (source == sourceVertex && dest == destVertex) {
 
-        if (direction == 1) {
-            edge = g.findEdge(source, dest);
-        } else { // Bidirectional
-            edge = g.findEdge(source, dest);
-            edge2 = g.findEdge(dest, source);
-        }
+            Edge *edge = nullptr;
+            Edge *edge2 = nullptr; // For bidirectional pipes
 
-        if (edge == nullptr) {
-            // Handle edge not found
-            continue;
-        }
+            if (direction == 1) {
+                edge = g.findEdge(source, dest);
+            } else { // Bidirectional
+                edge = g.findEdge(source, dest);
+                edge2 = g.findEdge(dest, source);
+            }
 
-        // Handle unidirectional pipes
-        if (direction == 1) {
-            handleUnidirectionalPipe(edge, source, dest, originalFlowMap, a, g);
-        } else { // Handle bidirectional pipes
-            handleBidirectionalPipe(edge, edge2, source, dest, originalFlowMap, a, g);
+            if (edge == nullptr) {
+                // Handle edge not found
+                continue;
+            }
+
+            std::map<std::string, float> affectedCities;
+
+            // Handle unidirectional pipes
+            if (direction == 1) {
+                handleUnidirectionalPipe(edge, source, dest, originalFlowMap, a, g, affectedCities);
+            } else { // Handle bidirectional pipes
+                handleBidirectionalPipe(edge, edge2, source, dest, originalFlowMap, a, g, affectedCities);
+            }
         }
     }
+    return affectedCitiesMap;
 }
 
 void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,
                                        const map<string, int>& originalFlowMap,
-                                       Actions& a, Graph& g) {
+                                       Actions& a, Graph& g, std::map<std::string, float>& affectedCities) {
+
     int originalCapacity = edge->getCapacity();
     int originalFlow = edge->getFlow();
     edge->setCapacity(0);
@@ -302,20 +441,21 @@ void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const s
 
     map<string, int> currentFlowMap = a.maxFlowAllCities(g);
 
-    map<string,int> deficits;
+    edge->setCapacity(originalCapacity);
+    edge->setFlow(originalFlow);
+
+    map<string,float> deficits;
     for (const auto &city: cities) {
         auto it = originalFlowMap.find(city.getCode());
         if (it != originalFlowMap.end()) {
             int initialFlow = it->second;
             int currentFlow = currentFlowMap[city.getCode()];
+            float cityDemand = city.getDemand();
             if (currentFlow < initialFlow) {
-                deficits[city.getCode()] = city.getDemand() - currentFlow;
+                deficits[city.getCode()] = cityDemand - currentFlow;
             }
         }
     }
-
-    edge->setCapacity(originalCapacity);
-    edge->setFlow(originalFlow);
 
     if (!deficits.empty()) {
         cout << source << " - " << dest << " is removed. Cities affected:" << endl;
@@ -331,18 +471,22 @@ void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const s
 
 void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source, const string& dest,
                                       const map<string, int>& originalFlowMap,
-                                      Actions& a, Graph& g) {
+                                      Actions& a, Graph& g, std::map<std::string, float>& affectedCities) {
     int originalCapacity1 = edge1->getCapacity();
     int originalFlow1 = edge1->getFlow();
     edge1->setCapacity(0);
     edge1->setFlow(0);
 
-    int originalCapacity2 = edge2->getCapacity();
     int originalFlow2 = edge2->getFlow();
     edge2->setCapacity(0);
     edge2->setFlow(0);
 
     map<string, int> currentFlowMap = a.maxFlowAllCities(g);
+
+    edge1->setCapacity(originalCapacity1);
+    edge1->setFlow(originalFlow1);
+    edge2->setCapacity(originalCapacity1);
+    edge2->setFlow(originalFlow2);
 
     map<string,int> deficits;
     for (const auto &city: cities) {
@@ -356,11 +500,6 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
         }
     }
 
-    edge1->setCapacity(originalCapacity1);
-    edge1->setFlow(originalFlow1);
-    edge2->setCapacity(originalCapacity2);
-    edge2->setFlow(originalFlow2);
-
     if (!deficits.empty()) {
         cout << source << " - " << dest << " is removed. Cities affected:" << endl;
         for (const auto& pair : deficits) {
@@ -369,153 +508,93 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
         cout << endl;
     } else {
         cout << source << " - " << dest << " is removed. No city is affected." << endl;
+        cout << "\n";
     }
 }
 
-Graph Actions::heuristic_evaluation(Graph &g) {
-    vector<Edge*> edges;
-    map<string, int> m = maxFlowAllCities(g);
+void Actions::crucialPipelines(Graph& g, const std::string& cityCode) {
+    // Find the city with the specified code
+    City* city = nullptr;
+    for (auto& c : cities) {
+        if (c.getCode() == cityCode) {
+            city = &c;
+            break;
+        }
+    }
+    if (city == nullptr) {
+        cout << "City not found.\n";
+        return;
+    }
 
-    for(Vertex * it: g.getVertexSet()){
-        if (it->isType(VertexType::CITY)){
-            City city = cities[it->getId() -1];
-            float value = (float) m[it->getInfo()];
-            if(city.getDemand() - value == 0){
-                for(Edge * edge:it->getPath()){
-                    edges.push_back(edge);
+    map<string, int> originalFlowMap = maxFlowAllCities(g);
+    map<string, int> currentFlowMap;
+
+    // Keep track of whether any pipelines affecting the city are found
+    bool foundCrucialPipelines = false;
+
+    // Iterate over each pipeline
+    for (const auto& pipe : pipes) {
+        // Check if the pipeline connects to the specified city
+        if (pipe.getPointA() == cityCode || pipe.getPointB() == cityCode) {
+            string source = pipe.getPointA();
+            string dest = pipe.getPointB();
+            int direction = pipe.getDirection();
+
+            Edge* edge = nullptr;
+            Edge* edge2 = nullptr; // For bidirectional pipes
+
+            // Find the edge corresponding to the pipeline
+            if (direction == 1) {
+                edge = g.findEdge(source, dest);
+            } else { // Bidirectional
+                edge = g.findEdge(source, dest);
+                edge2 = g.findEdge(dest, source);
+            }
+
+            // Skip if the edge is not found
+            if (edge == nullptr) {
+                continue;
+            }
+
+            // Temporarily set capacity to 0 to simulate pipeline malfunction
+            int originalCapacity = edge->getCapacity();
+            edge->setCapacity(0);
+
+            if (edge2 != nullptr) {
+                edge2->setCapacity(0);
+            }
+
+            // Calculate the current flow after simulating pipeline malfunction
+            currentFlowMap = maxFlowAllCities(g);
+
+            // Reset the capacity back to the original value
+            edge->setCapacity(originalCapacity);
+            if (edge2 != nullptr) {
+                edge2->setCapacity(originalCapacity);
+            }
+
+            // Check if any city has a water supply deficit due to this pipeline malfunction
+            bool affected = false;
+            for (const auto& pair : originalFlowMap) {
+                const string& cityCode = pair.first;
+                int initialFlow = pair.second;
+                int currentFlow = currentFlowMap[cityCode];
+                if (currentFlow < initialFlow) {
+                    affected = true;
+                    break;
                 }
+            }
+
+            // If any city is affected, display the pipeline as crucial
+            if (affected) {
+                foundCrucialPipelines = true;
+                cout << "Pipeline " << pipe.getPointA() << "-" << pipe.getPointB() << " is crucial for city " << cityCode << endl;
             }
         }
     }
 
-    map<City, vector<Edge*>> cityEdges;
-
-
-    for(auto it : edges){
-        City city = cities[it->getDest()->getId()-1];
-        cityEdges[city].push_back(it);
+    // If no pipelines affecting the city are found, display a message
+    if (!foundCrucialPipelines) {
+        cout << "There are no pipelines crucial to city " << cityCode << endl;
     }
-
-
-
-    for(auto& c: cityEdges){
-        vector<Edge*> edgesToUse;
-        vector<Edge*> es = c.second;
-        int demand = (int) c.first.getDemand();
-        int nEdges = (int) c.second.size();
-        int bestDemand = demand/nEdges;
-
-        for(auto& edge: es){
-            auto path = edge->getSource()->getPath();
-            if(edge->getFlow() > bestDemand){
-                edgesToUse.push_back(edge);
-            }
-            else{
-                for(auto edge1 : path) {
-                    if(edge->getFlow() < edge1->getCapacity() && edge->getCapacity() < edge1->getCapacity()){
-                        edge->setFlow(edge->getCapacity());
-                    }
-                }
-
-            }
-
-        }
-
-        int currentDemand = demand;
-        if(edgesToUse.size() > 0){
-            bestDemand = demand / edgesToUse.size();
-            for(auto& it: edgesToUse){
-                if(currentDemand >= bestDemand){
-                    it->setFlow(bestDemand);
-                    currentDemand = currentDemand - bestDemand;
-                }
-                else{
-                    it->setFlow(currentDemand);
-                }
-            }
-            for(auto &it: edgesToUse){
-                if(it->getFlow() > it->getCapacity()){
-                    it->setFlow(it->getCapacity());
-                }
-            }
-            }
-        }
-
-
-
-    for(auto it: g.getVertexSet()){
-        if(it->isType(VertexType::RESERVOIR)){
-            auto reservoir = reservoirs[it->getId() - 1];
-            int max = reservoir.getMaxDelivery();
-            int waterInUse = 0;
-            for(auto edge:it->getAdj()){
-                waterInUse += edge->getFlow();
-            }
-            int curr_water = max - waterInUse;
-            if(curr_water > 0){
-                for(auto edge:it->getAdj()){
-                    int residual = edge->getCapacity() - edge->getFlow();
-                    if(residual > 0){
-                        if(curr_water - residual >= 0){
-                            edge->setFlow(edge->getCapacity());
-                            curr_water = curr_water - residual;
-                        }
-
-                        else if(curr_water > 0 && (edge->getCapacity() - edge->getFlow()) > curr_water){
-                            edge->setFlow(edge->getFlow() + curr_water);
-                            curr_water = 0;
-
-                        }
-
-                    }
-                }
-            }
-
-
-        }
-    }
-
-
-    return g;
-
-    //vector<Edge*> allEdges;
-    //for(auto it: )
-
 }
-
-vector<double> Actions::calculateMetrics(Graph &g) {
-    // Calculate initial metrics
-    vector<double> res;
-    vector<int> diff;
-    int orig_max_diff = INT_MIN;
-    int sum = 0, count = 0;
-    double orig_average = 0, orig_variance = 0;
-
-    // Iterate over all vertices in the graph
-    for (Vertex* v : g.getVertexSet()) {
-        if (v->getInfo() != "S" && v->getInfo() != "Si") {
-            // Iterate over all edges adjacent to the current vertex
-            for (Edge *e: v->getAdj()) {
-                int d = e->getCapacity() - e->getFlow();
-                diff.push_back(d);
-                sum += d;
-                count++;
-                if (d > orig_max_diff) {
-                    orig_max_diff = d;
-                }
-            }
-        }
-    }
-    orig_average = sum / count;
-    for (int d : diff) {
-        orig_variance += pow(d - orig_average, 2);
-    }
-    orig_variance /= (count - 1);
-    res.push_back(orig_average);
-    res.push_back(orig_variance);
-    res.push_back(orig_max_diff);
-    return res;
-}
-
-
-

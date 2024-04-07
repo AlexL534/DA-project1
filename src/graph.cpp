@@ -110,16 +110,6 @@ void Vertex::setVisited(bool v) {
     visited = v;
 }
 
-int Vertex::getIndegree() const {
-    return indegree;
-}
-
-void Vertex::setIndegree(int ind) {
-    indegree = ind;
-}
-
-
-
 std::vector<Edge*> Vertex::getAdj() const {
     return adj;
 }
@@ -144,13 +134,24 @@ bool Graph::addVertex(const std::string& in, VertexType t, int id) {
 }
 
 Edge* Graph::findEdge(const std::string& source, const std::string& dest) {
-    for (auto& e : allEdges[source]) {
-        if (dest == e.dest->getInfo()) {
-            return &e;
+    // Iterate over all vertices
+    for (auto& vertex : vertexSet) {
+        // Iterate over adjacent edges of each vertex
+        for (auto& edge : vertex->getAdj()) {
+            // Check if the edge connects source and dest vertices
+            if (vertex->getInfo() == source && edge->getDest()->getInfo() == dest) {
+                return edge;
+            }
+                // If the edge is bidirectional, check the reverse direction
+            else if (vertex->getInfo() == dest && edge->getDest()->getInfo() == source) {
+                return edge;
+            }
         }
     }
+    // Edge not found
     return nullptr;
 }
+
 
 bool Graph::addEdge(const std::string& source, const std::string& dest, int direction, int capacity) {
     auto v1 = findVertex(source);
@@ -159,13 +160,10 @@ bool Graph::addEdge(const std::string& source, const std::string& dest, int dire
         return false;
     if (direction == 1) {
         v1->addEdge(v1, v2, capacity);
-        allEdges[v1->info].push_back(Edge(v1, v2, capacity));
     }
     else if (direction==0) {
         v1->addEdge(v1, v2, capacity);
-        allEdges[v1->info].push_back(Edge(v1, v2, capacity));
         v2->addEdge(v2, v1, capacity);
-        allEdges[v2->info].push_back(Edge(v2, v1, capacity));
     }
     return true;
 }

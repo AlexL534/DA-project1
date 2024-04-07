@@ -44,30 +44,24 @@ void menu(Graph& graph, Actions& actions){
 
                     for(auto it : cityFlow){
                         // Get the city name from the city code
-                        string cityName;
-                        for (auto& city : cityNameMap) {
-                            if (city.first == it.first) {
-                                cityName = city.second;
-                                break;
-                            }
-                        }
+                        std::string cityName = cityNameMap[it.first]; // Retrieve city name from the map
 
-                        std::cout << cityName << ' ' << it.second << " m^3/s" << std::endl;
+                        std::cout << it.first << '-' << cityName << ' ' << it.second << " m^3/s" << std::endl;
                     }
-                }
-                else {
+                } else {
                     std::cout << "Invalid choice. Please enter 1 or 2.\n";
                 }
                 break;
             case 2:
                 citiesInNeed = actions.citiesInNeed(graph);
-                for(auto it:cities){
-                    float value = (float) citiesInNeed[it.getCode()];
-                    if(it.getDemand() - value > 0) {
+                for(auto it : cities){
+                    float deficit = (float) citiesInNeed[it.getCode()];
+                    if(deficit > 0) {
                         cout << it.getCode() << "-" << it.getName() << endl;
                         cout << "Demand: " << it.getDemand() << endl;
-                        cout << "Deficit: " << it.getDemand() - value << endl;
-                        cout << "Actual Flow: " << value << endl;
+                        cout << "Actual Flow: " << it.getDemand() - deficit << endl;
+                        cout << "Deficit: " << deficit << endl;
+                        cout << endl;
                     }
                 }
                 break;
@@ -83,7 +77,41 @@ void menu(Graph& graph, Actions& actions){
                 graph = g.buildGraph(parseReservoirs(),parseStations(),parsePipes(),parseCities());
                 break;
             case 6:
-                actions.crucialPipelines(graph);
+                int subChoice6;
+                std::cout << "1. View crucial pipelines for a specific city.\n";
+                std::cout << "2. View cities affected by pipeline malfunction.\n";
+                std::cin >> subChoice6;
+                if (subChoice6 == 1) {
+                    std::string cityCode;
+                    std::cout << "Enter the city code: ";
+                    std::cin >> cityCode;
+                    actions.crucialPipelines(graph, cityCode);
+                } else if (subChoice6 == 2) { // View affected cities
+                    std::string sourceCode, destCode;
+                    std::cout << "Enter the source vertex code: ";
+                    std::cin >> sourceCode;
+                    std::cout << "Enter the destination vertex code: ";
+                    std::cin >> destCode;
+
+                    // Retrieve affected cities map using the source and dest codes
+                    auto affectedCitiesMap = actions.crucialPipelines(graph, sourceCode, destCode);
+
+                    // Check if the source code exists in the affected cities map
+                    if (affectedCitiesMap.find(sourceCode) != affectedCitiesMap.end() &&
+                        affectedCitiesMap[sourceCode].find(destCode) != affectedCitiesMap[sourceCode].end()) {
+                        auto affectedCities = affectedCitiesMap[sourceCode][destCode];
+                        if (!affectedCities.empty()) {
+                            std::cout << "The removal of pipeline " << sourceCode << " - " << destCode << " affects the following cities:" << std::endl;
+                            for (const auto& pair : affectedCities) {
+                                std::cout << "City " << pair.first << " has a water supply deficit of " << pair.second << std::endl;
+                            }
+                        } else {
+                            std::cout << "The removal of pipeline " << sourceCode << " - " << destCode << " doesn't affect any cities." << std::endl;
+                        }
+                    }
+                } else {
+                    std::cout << "Invalid choice. Please enter 1 or 2.\n";
+                }
                 break;
             case 7:
                 std::cout << "Exiting the program.\n";
@@ -112,3 +140,4 @@ void menu(Graph& graph, Actions& actions){
         } while (continueChoice != 1);
     } while(choice != 7);
 }
+

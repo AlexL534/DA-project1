@@ -195,14 +195,15 @@ bool Graph::removeVertex(const std::string& in) {
             while(e != v->adj.end()){
                 Edge *edge = *e;
                 e = v->adj.erase(e);
-                auto it = edge->dest->path.begin();
-                while(it != edge->dest->path.end()){
-                    it = edge->dest->path.erase(it);
+                auto it2 = edge->dest->path.begin();
+                while(it2 != edge->dest->path.end()){
+                    it2 = edge->dest->path.erase(it2);
                 }
             }
             for (auto u : vertexSet){
                 u->removeEdgeTo(v);
             }
+            vertexSet.erase(it);
             return true;
         }
     }
@@ -405,4 +406,36 @@ vector<Edge *> Graph::findAugmentingPath(Graph &g, const std::string &source, co
     }
 
     return path;
+}
+
+bool Graph::addFlow(int f, Vertex *vertex) {
+    if(!vertex->isType(VertexType::CITY)){return true;}
+        vertex->setVisited(true);
+        for(auto edge: vertex->getAdj()){
+            if(!edge->getDest()->isVisited()){
+                int capacity = (int) edge->getCapacity();
+                int flow = (int) edge->getFlow();
+                int remaining = capacity - flow;
+                int adjacentFlow = 0;
+                for(auto it1: vertex->getAdj()){adjacentFlow += it1->getFlow();}
+                cout << "a";
+                if (adjacentFlow >= f && remaining >= f){
+                    cout << "b";
+                    int ff = min(f, remaining);
+                    edge->setFlow(flow + ff);
+
+                    Vertex * newVertex = edge->getDest();
+                    if(addFlow(ff, newVertex)){
+                        cout << "c";
+                        return true;
+                    }
+                    cout << "d";
+                    edge->setFlow(flow - ff);
+
+                }
+
+            }
+        }
+
+    return false;
 }

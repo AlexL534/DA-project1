@@ -219,6 +219,7 @@ public:
      * @param sink The info attribute of the sink vertex.
      */
     void edmondsKarp(const std::string &source, const std::string &sink);
+    bool addFlow(int flow, Vertex * vertex);
 
     /**
      * @brief Implement the Ford-Fulkerson algorithm to find the maximum flow in the graph.

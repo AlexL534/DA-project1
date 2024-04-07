@@ -3,6 +3,7 @@
 
 
 #include <map>
+#include <set>
 #include "graph.h"
 #include "City.h"
 #include "Station.h"
@@ -20,6 +21,10 @@ class Actions {
     Graph graph;
 
 public:
+    struct AffectedCity {
+        string code; // Código da cidade
+        int deficit; // Déficit no fornecimento de água para a cidade
+    };
     Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_);
     /**
      * @brief Calculates the maximum amount of water that can reach a specific city.
@@ -56,10 +61,15 @@ public:
      * @param g Reference to the graph representing the water supply network.
      */
     void balanceAndCalculateMetrics(Graph& g); //2.3
-    struct AffectedCity {
-        string code; // Código da cidade
-        int deficit; // Déficit no fornecimento de água para a cidade
-    };
+    Graph heuristic_evaluation(Graph &g); //2.3
+    /**
+     * @brief Calculates the metrics of the water supply network.
+     *
+     * @param g Reference to the graph representing the water supply network.
+     * @return A vector containing the metrics of the water supply network.
+     */
+    vector<double> calculateMetrics(Graph& g);//2.3
+
     /**
      * @brief Identifies the cities in need of water supply.
      *
@@ -102,7 +112,7 @@ public:
      * @return std::map<std::string, std::map<std::string, std::map<std::string, float>>> A map containing
      * information about crucial pipelines and their impact on affected cities.
      */
-    std::map<std::string, std::map<std::string, std::map<std::string, float>>> crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex);
+    std::map<std::string, std::map<std::string, std::map<std::string, float>>> crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex); //3.3
     /**
      * @brief Identify crucial pipelines affecting a specific city and their impact on water supply.
      *
@@ -115,14 +125,6 @@ public:
      * @param g Reference to the graph representing the water distribution network.
      * @param cityCode The unique code identifying the city.
      */
-    void crucialPipelines(Graph& g, const std::string& cityCode);
-    Graph heuristic_evaluation(double orig_variance,double orig_average,double orig_max_diff,Graph &g);
-    /**
-     * @brief Calculates the metrics of the water supply network.
-     *
-     * @param g Reference to the graph representing the water supply network.
-     * @return A vector containing the metrics of the water supply network.
-     */
-    vector<double> calculateMetrics(Graph& g);
+    void crucialPipelines(Graph& g, const std::string& cityCode); //3.3
 };
 #endif

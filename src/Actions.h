@@ -61,6 +61,19 @@ public:
      * @param g Reference to the graph representing the water supply network.
      */
     void balanceAndCalculateMetrics(Graph& g); //2.3
+    /**
+     * @brief Perform heuristic evaluation to optimize water flow in the graph.
+     *
+     * This function conducts a heuristic evaluation of the water distribution network
+     * represented by the given graph to optimize water flow. It calculates the maximum flow
+     * for all cities in the network and adjusts the flow through edges based on predefined
+     * heuristic rules. The objective is to ensure that each city's demand is met efficiently
+     * while considering the capacities of pipes and reservoirs. The function returns the modified
+     * graph after applying the heuristic evaluation.
+     *
+     * @param g Reference to the graph representing the water distribution network.
+     * @return Graph The modified graph after heuristic evaluation.
+     */
     Graph heuristic_evaluation(Graph &g); //2.3
     /**
      * @brief Calculates the metrics of the water supply network.
@@ -69,7 +82,6 @@ public:
      * @return A vector containing the metrics of the water supply network.
      */
     vector<double> calculateMetrics(Graph& g);//2.3
-
     /**
      * @brief Identifies the cities in need of water supply.
      *

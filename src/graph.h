@@ -69,7 +69,6 @@ public:
      * @return int
      */
     int getId() const;
-    VertexType getType() const;
     /**
      * @brief Check if the vertex is of a certain type
      *
@@ -78,7 +77,6 @@ public:
      * @return false
      */
     bool isType(VertexType t) const;
-    void printType() const;
     /**
      * @brief Get the Adj object
      *
@@ -94,9 +92,7 @@ public:
     Edge* getPrev() const;
     void setPrev(Edge* prev);
     vector<Edge*> getPath() const;
-    void setPath( vector<Edge *> p);
     vector<Edge*> getAdj() const;
-    void setAdj( vector<Edge *> adj);
     friend class Graph;
 };
 
@@ -131,8 +127,6 @@ public:
 
     Vertex *findVertex(const std::string &in) const;
 
-    int getNumVertex() const;
-
     Edge* findEdge(const std::string& source, const std::string& dest);
 
     /**
@@ -154,7 +148,6 @@ public:
      */
     bool removeVertex(const std::string &in);
 
-    bool removePath(Edge * e);
     /**
      * @brief Add an edge to the graph
      *
@@ -181,10 +174,7 @@ public:
      * @return vector<Edge*>
      */
     std::vector<Edge*> getAdjacentEdges(const std::string& vertexInfo) const;
-    map<string,vector<Edge>> getEdgesSet() const;
     void dfsVisit(Vertex *v, vector<std::string>& res) const;
-    vector<std::string> dfs(const std::string &source) const;
-
     /**
      * @brief Perform a breadth-first search (BFS) traversal from a source vertex to a sink vertex.
      *
@@ -194,7 +184,6 @@ public:
      * @return false If there is no path from the source to the sink vertex.
      */
     bool bfs(Vertex* src, Vertex* snk);
-
     /**
      * @brief Update the flow along the augmenting path in the graph.
      *
@@ -207,7 +196,6 @@ public:
      * @param flow The amount of flow augmentation to be added to the edges in the path.
      */
     void updateFlow(Vertex* src, Vertex* snk, int flow);
-
     /**
      * @brief Implement the Edmonds-Karp algorithm to find the maximum flow in the graph.
      *
@@ -220,7 +208,6 @@ public:
      */
     void edmondsKarp(const std::string &source, const std::string &sink);
     bool addFlow(int flow, Vertex * vertex);
-
     /**
      * @brief Implement the Ford-Fulkerson algorithm to find the maximum flow in the graph.
      *
@@ -235,9 +222,7 @@ public:
      * @param sink The info attribute of the sink vertex.
      */
     void fordFulkerson(Graph& g, const std::string &source, const std::string &sink);
-
-
-    /**
+     /**
      * @brief Find an augmenting path in the graph using the given source and sink vertices.
      *
      * This function finds an augmenting path in the graph from the source vertex to the
@@ -250,7 +235,6 @@ public:
      * @return vector<Edge*> Vector of pointers to the edges in the augmenting path.
      */
     vector<Edge*> findAugmentingPath(Graph& g, const string& source, const string& sink);
-
     /**
      * @brief Build a graph from the given data of reservoirs, stations, pipes, and cities.
      *

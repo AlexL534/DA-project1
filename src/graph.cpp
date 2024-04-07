@@ -7,29 +7,8 @@ Edge::Edge(Vertex *d): dest(d) {}
 
 Edge::Edge(Vertex *s, Vertex *d, int ca):src(s), dest(d), capacity(ca) {}
 
-VertexType Vertex::getType() const {
-    return type;
-}
-
 bool Vertex::isType(VertexType t) const {
     return type == t;
-}
-
-void Vertex::printType() const {
-    switch (type) {
-        case VertexType::STATION:
-            std::cout << "Station" << std::endl;
-            break;
-        case VertexType::RESERVOIR:
-            std::cout << "Reservoir" << std::endl;
-            break;
-        case VertexType::CITY:
-            std::cout << "City" << std::endl;
-            break;
-        default:
-            std::cout << "Unknown type" << std::endl;
-            break;
-    }
 }
 
 int Vertex::getId() const {
@@ -114,16 +93,8 @@ std::vector<Edge*> Vertex::getAdj() const {
     return adj;
 }
 
-void Vertex::setAdj(vector<Edge*> ad) {
-    adj = ad;
-}
-
 vector<Edge *> Vertex::getPath() const {
     return path;
-}
-
-void Vertex::setPath(vector<Edge *> p) {
-    path = p;
 }
 
 bool Graph::addVertex(const std::string& in, VertexType t, int id) {
@@ -218,19 +189,6 @@ void Graph::dfsVisit(Vertex* v, std::vector<std::string>& res) const {
         if (!w->visited)
             dfsVisit(w, res);
     }
-}
-
-std::vector<std::string> Graph::dfs(const std::string& source) const {
-    std::vector<std::string> res;
-    auto s = findVertex(source);
-    if (s == nullptr)
-        return res;
-
-    for (auto v : vertexSet)
-        v->visited = false;
-
-    dfsVisit(s, res);
-    return res;
 }
 
 bool Graph::bfs(Vertex* src, Vertex* snk) {

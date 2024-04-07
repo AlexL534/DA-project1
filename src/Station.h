@@ -18,7 +18,17 @@ public:
             const string &code
     );
 
+    /**
+     * @brief Get the id of the station
+     *
+     * @return int
+     */
     int getId() const;
+    /**
+     * @brief Get the code of the station
+     *
+     * @return string
+     */
     string getCode() const;
 };
 

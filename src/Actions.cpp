@@ -1,7 +1,6 @@
 #include "Actions.h"
 #include <cmath>
 //Max flow cidade especifica
-
 int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
 
     int maxFlow = 0;

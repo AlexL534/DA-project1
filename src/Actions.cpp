@@ -30,7 +30,6 @@ int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
         maxFlow += edge->getFlow();
     }
 
-
     g.removeVertex("Si");
     g.removeVertex("S");
 

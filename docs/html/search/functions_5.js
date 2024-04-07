@@ -12,5 +12,5 @@ var searchData=
   ['getpointb_9',['getPointB',['../class_pipe.html#a5c4a16b16f3b35bdbdeddf9beb2da1d0',1,'Pipe']]],
   ['getpopulation_10',['getPopulation',['../class_city.html#a23be6779c2ba1f5ee0f303b9a160216d',1,'City']]],
   ['getvertexset_11',['getVertexSet',['../class_graph.html#a56576f9c2ee0afadc4b77dcbe3acb704',1,'Graph']]],
-  ['graph_12',['Graph',['../class_graph.html',1,'Graph'],['../class_graph.html#a90961be426ad80001cbc103b6385df31',1,'Graph::Graph()']]]
+  ['graph_12',['Graph',['../class_graph.html#a90961be426ad80001cbc103b6385df31',1,'Graph']]]
 ];

@@ -89,40 +89,414 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae7828f8d80008c947bb185db87dca5ec" id="r_ae7828f8d80008c947bb185db87dca5ec"><td class="memItemLeft" align="right" valign="top"><a id="ae7828f8d80008c947bb185db87dca5ec" name="ae7828f8d80008c947bb185db87dca5ec"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Actions</b> (vector&lt; <a class="el" href="class_reservoir.html">Reservoir</a> &gt; reservoirs_, vector&lt; <a class="el" href="class_station.html">Station</a> &gt; stations_, vector&lt; <a class="el" href="class_city.html">City</a> &gt; cities_, vector&lt; <a class="el" href="class_pipe.html">Pipe</a> &gt; pipes_)</td></tr>
 <tr class="separator:ae7828f8d80008c947bb185db87dca5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0c3a2ed481b1e5fe900986a4d6efb65" id="r_af0c3a2ed481b1e5fe900986a4d6efb65"><td class="memItemLeft" align="right" valign="top"><a id="af0c3a2ed481b1e5fe900986a4d6efb65" name="af0c3a2ed481b1e5fe900986a4d6efb65"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>maxFlowSpecificCity</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g, string city)</td></tr>
+<tr class="memitem:af0c3a2ed481b1e5fe900986a4d6efb65" id="r_af0c3a2ed481b1e5fe900986a4d6efb65"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0c3a2ed481b1e5fe900986a4d6efb65">maxFlowSpecificCity</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g, string city)</td></tr>
+<tr class="memdesc:af0c3a2ed481b1e5fe900986a4d6efb65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the maximum amount of water that can reach a specific city.  <br /></td></tr>
 <tr class="separator:af0c3a2ed481b1e5fe900986a4d6efb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11d5c1d77765818a11acba8fa0abca0f" id="r_a11d5c1d77765818a11acba8fa0abca0f"><td class="memItemLeft" align="right" valign="top"><a id="a11d5c1d77765818a11acba8fa0abca0f" name="a11d5c1d77765818a11acba8fa0abca0f"></a>
-map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>maxFlowAllCities</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memitem:a11d5c1d77765818a11acba8fa0abca0f" id="r_a11d5c1d77765818a11acba8fa0abca0f"><td class="memItemLeft" align="right" valign="top">map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11d5c1d77765818a11acba8fa0abca0f">maxFlowAllCities</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:a11d5c1d77765818a11acba8fa0abca0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the maximum amount of water that can reach each city.  <br /></td></tr>
 <tr class="separator:a11d5c1d77765818a11acba8fa0abca0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a930c982339c595c801c7a999718a9572" id="r_a930c982339c595c801c7a999718a9572"><td class="memItemLeft" align="right" valign="top"><a id="a930c982339c595c801c7a999718a9572" name="a930c982339c595c801c7a999718a9572"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>balanceAndCalculateMetrics</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:a930c982339c595c801c7a999718a9572"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1c579942ec93f2727e6b2007594c758" id="r_aa1c579942ec93f2727e6b2007594c758"><td class="memItemLeft" align="right" valign="top"><a id="aa1c579942ec93f2727e6b2007594c758" name="aa1c579942ec93f2727e6b2007594c758"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>analyseReservoirs</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:aa1c579942ec93f2727e6b2007594c758"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07aec7c465664b15008506f68e1a540a" id="r_a07aec7c465664b15008506f68e1a540a"><td class="memItemLeft" align="right" valign="top"><a id="a07aec7c465664b15008506f68e1a540a" name="a07aec7c465664b15008506f68e1a540a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>analyzePumpingStations</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:a07aec7c465664b15008506f68e1a540a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a919e945a75a954564599e3c5c9174565" id="r_a919e945a75a954564599e3c5c9174565"><td class="memItemLeft" align="right" valign="top"><a id="a919e945a75a954564599e3c5c9174565" name="a919e945a75a954564599e3c5c9174565"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>crucialPipelines</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:a919e945a75a954564599e3c5c9174565"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeabf0d1add0c6bb58a3c748617b7853d" id="r_aeabf0d1add0c6bb58a3c748617b7853d"><td class="memItemLeft" align="right" valign="top"><a id="aeabf0d1add0c6bb58a3c748617b7853d" name="aeabf0d1add0c6bb58a3c748617b7853d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handleBidirectionalPipe</b> (<a class="el" href="class_edge.html">Edge</a> *edge1, <a class="el" href="class_edge.html">Edge</a> *edge2, const string &amp;source, const string &amp;dest, const map&lt; string, int &gt; &amp;originalFlowMap, <a class="el" href="class_actions.html">Actions</a> &amp;a, <a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:aeabf0d1add0c6bb58a3c748617b7853d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab24526b7a6f4c415991972a604c68a6c" id="r_ab24526b7a6f4c415991972a604c68a6c"><td class="memItemLeft" align="right" valign="top"><a id="ab24526b7a6f4c415991972a604c68a6c" name="ab24526b7a6f4c415991972a604c68a6c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>handleUnidirectionalPipe</b> (<a class="el" href="class_edge.html">Edge</a> *edge, const string &amp;source, const string &amp;dest, const map&lt; string, int &gt; &amp;originalFlowMap, <a class="el" href="class_actions.html">Actions</a> &amp;a, <a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:ab24526b7a6f4c415991972a604c68a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3a7c5f5052dfb1a33e52dbcc6cd787d" id="r_af3a7c5f5052dfb1a33e52dbcc6cd787d"><td class="memItemLeft" align="right" valign="top"><a id="af3a7c5f5052dfb1a33e52dbcc6cd787d" name="af3a7c5f5052dfb1a33e52dbcc6cd787d"></a>
-map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>citiesInNeed</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memitem:af3a7c5f5052dfb1a33e52dbcc6cd787d" id="r_af3a7c5f5052dfb1a33e52dbcc6cd787d"><td class="memItemLeft" align="right" valign="top">map&lt; string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3a7c5f5052dfb1a33e52dbcc6cd787d">citiesInNeed</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:af3a7c5f5052dfb1a33e52dbcc6cd787d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the cities in need of additional water supply.  <br /></td></tr>
 <tr class="separator:af3a7c5f5052dfb1a33e52dbcc6cd787d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e66d5d9cbf3da87d830c4d9b6c498ee" id="r_a5e66d5d9cbf3da87d830c4d9b6c498ee"><td class="memItemLeft" align="right" valign="top"><a id="a5e66d5d9cbf3da87d830c4d9b6c498ee" name="a5e66d5d9cbf3da87d830c4d9b6c498ee"></a>
-<a class="el" href="class_graph.html">Graph</a>&#160;</td><td class="memItemRight" valign="bottom"><b>heuristic_evaluation</b> (double orig_variance, double orig_average, double orig_max_diff, <a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
-<tr class="separator:a5e66d5d9cbf3da87d830c4d9b6c498ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37e67336923b0a043cb599c70958fd83" id="r_a37e67336923b0a043cb599c70958fd83"><td class="memItemLeft" align="right" valign="top"><a id="a37e67336923b0a043cb599c70958fd83" name="a37e67336923b0a043cb599c70958fd83"></a>
-vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>calculateMetrics</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memitem:a930c982339c595c801c7a999718a9572" id="r_a930c982339c595c801c7a999718a9572"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a930c982339c595c801c7a999718a9572">balanceAndCalculateMetrics</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:a930c982339c595c801c7a999718a9572"><td class="mdescLeft">&#160;</td><td class="mdescRight">Balances the water supply network and calculates the metrics.  <br /></td></tr>
+<tr class="separator:a930c982339c595c801c7a999718a9572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6349d13f7efba35cf28266cc92cdcef9" id="r_a6349d13f7efba35cf28266cc92cdcef9"><td class="memItemLeft" align="right" valign="top"><a id="a6349d13f7efba35cf28266cc92cdcef9" name="a6349d13f7efba35cf28266cc92cdcef9"></a>
+<a class="el" href="class_graph.html">Graph</a>&#160;</td><td class="memItemRight" valign="bottom"><b>heuristic_evaluation</b> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="separator:a6349d13f7efba35cf28266cc92cdcef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37e67336923b0a043cb599c70958fd83" id="r_a37e67336923b0a043cb599c70958fd83"><td class="memItemLeft" align="right" valign="top">vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37e67336923b0a043cb599c70958fd83">calculateMetrics</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:a37e67336923b0a043cb599c70958fd83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the metrics of the water supply network.  <br /></td></tr>
 <tr class="separator:a37e67336923b0a043cb599c70958fd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1c579942ec93f2727e6b2007594c758" id="r_aa1c579942ec93f2727e6b2007594c758"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1c579942ec93f2727e6b2007594c758">analyseReservoirs</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:aa1c579942ec93f2727e6b2007594c758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the cities in need of water supply.  <br /></td></tr>
+<tr class="separator:aa1c579942ec93f2727e6b2007594c758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07aec7c465664b15008506f68e1a540a" id="r_a07aec7c465664b15008506f68e1a540a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07aec7c465664b15008506f68e1a540a">analyzePumpingStations</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g)</td></tr>
+<tr class="memdesc:a07aec7c465664b15008506f68e1a540a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Analyzes the pumping stations in the water supply network.  <br /></td></tr>
+<tr class="separator:a07aec7c465664b15008506f68e1a540a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae97494b7ef6665538915a1c27d808f0a" id="r_ae97494b7ef6665538915a1c27d808f0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae97494b7ef6665538915a1c27d808f0a">handleBidirectionalPipe</a> (<a class="el" href="class_edge.html">Edge</a> *edge1, <a class="el" href="class_edge.html">Edge</a> *edge2, const string &amp;source, const string &amp;dest, const map&lt; string, int &gt; &amp;originalFlowMap, <a class="el" href="class_actions.html">Actions</a> &amp;a, <a class="el" href="class_graph.html">Graph</a> &amp;g, std::map&lt; std::string, float &gt; &amp;affectedCities)</td></tr>
+<tr class="memdesc:ae97494b7ef6665538915a1c27d808f0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the cities in need of water supply.  <br /></td></tr>
+<tr class="separator:ae97494b7ef6665538915a1c27d808f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4e0edb6664def7c26c1bc4e5a73c3a5" id="r_ae4e0edb6664def7c26c1bc4e5a73c3a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4e0edb6664def7c26c1bc4e5a73c3a5">handleUnidirectionalPipe</a> (<a class="el" href="class_edge.html">Edge</a> *edge, const string &amp;source, const string &amp;dest, const map&lt; string, int &gt; &amp;originalFlowMap, <a class="el" href="class_actions.html">Actions</a> &amp;a, <a class="el" href="class_graph.html">Graph</a> &amp;g, std::map&lt; std::string, float &gt; &amp;affectedCities)</td></tr>
+<tr class="memdesc:ae4e0edb6664def7c26c1bc4e5a73c3a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifies the cities in need of water supply.  <br /></td></tr>
+<tr class="separator:ae4e0edb6664def7c26c1bc4e5a73c3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adea9996dfda22872628128c0cd17bb85" id="r_adea9996dfda22872628128c0cd17bb85"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, std::map&lt; std::string, std::map&lt; std::string, float &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adea9996dfda22872628128c0cd17bb85">crucialPipelines</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g, const std::string &amp;sourceVertex, const std::string &amp;destVertex)</td></tr>
+<tr class="memdesc:adea9996dfda22872628128c0cd17bb85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identify crucial pipelines and their impact on affected cities.  <br /></td></tr>
+<tr class="separator:adea9996dfda22872628128c0cd17bb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a538ec209090bdbbde772b79439cd1815" id="r_a538ec209090bdbbde772b79439cd1815"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a538ec209090bdbbde772b79439cd1815">crucialPipelines</a> (<a class="el" href="class_graph.html">Graph</a> &amp;g, const std::string &amp;cityCode)</td></tr>
+<tr class="memdesc:a538ec209090bdbbde772b79439cd1815"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identify crucial pipelines affecting a specific city and their impact on water supply.  <br /></td></tr>
+<tr class="separator:a538ec209090bdbbde772b79439cd1815"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa1c579942ec93f2727e6b2007594c758" name="aa1c579942ec93f2727e6b2007594c758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1c579942ec93f2727e6b2007594c758">&#9670;&#160;</a></span>analyseReservoirs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Actions::analyseReservoirs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identifies the cities in need of water supply. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A map containing the cities in need of water supply and their respective deficits. </dd></dl>
+
+</div>
+</div>
+<a id="a07aec7c465664b15008506f68e1a540a" name="a07aec7c465664b15008506f68e1a540a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07aec7c465664b15008506f68e1a540a">&#9670;&#160;</a></span>analyzePumpingStations()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Actions::analyzePumpingStations </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Analyzes the pumping stations in the water supply network. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a930c982339c595c801c7a999718a9572" name="a930c982339c595c801c7a999718a9572"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a930c982339c595c801c7a999718a9572">&#9670;&#160;</a></span>balanceAndCalculateMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Actions::balanceAndCalculateMetrics </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Balances the water supply network and calculates the metrics. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a37e67336923b0a043cb599c70958fd83" name="a37e67336923b0a043cb599c70958fd83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37e67336923b0a043cb599c70958fd83">&#9670;&#160;</a></span>calculateMetrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt; double &gt; Actions::calculateMetrics </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the metrics of the water supply network. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector containing the metrics of the water supply network. </dd></dl>
+
+</div>
+</div>
+<a id="af3a7c5f5052dfb1a33e52dbcc6cd787d" name="af3a7c5f5052dfb1a33e52dbcc6cd787d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3a7c5f5052dfb1a33e52dbcc6cd787d">&#9670;&#160;</a></span>citiesInNeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">map&lt; string, int &gt; Actions::citiesInNeed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determine the cities in need of additional water supply. </p>
+<p>This function calculates the demand for water supply in each city based on the maximum flow computed for the water distribution network represented by the given graph. It compares the demand for water in each city with the maximum flow reaching that city and identifies the cities where the supply doesn't meet the demand. The result is a map containing the names of cities and the deficit amount of water they require.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water distribution network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::map&lt;std::string, int&gt; A map containing the names of cities in need and their deficit amount of water supply. </dd></dl>
+
+</div>
+</div>
+<a id="a538ec209090bdbbde772b79439cd1815" name="a538ec209090bdbbde772b79439cd1815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a538ec209090bdbbde772b79439cd1815">&#9670;&#160;</a></span>crucialPipelines() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Actions::crucialPipelines </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>cityCode</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identify crucial pipelines affecting a specific city and their impact on water supply. </p>
+<p>This function analyzes the water distribution network represented by the given graph to identify crucial pipelines connected to the specified city. It simulates pipeline malfunctions by temporarily setting their capacities to zero and recalculates the flow distribution in the network. If any city experiences a water supply deficit due to the malfunctioning pipelines, those pipelines are deemed crucial for the specified city.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water distribution network. </td></tr>
+    <tr><td class="paramname">cityCode</td><td>The unique code identifying the city. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adea9996dfda22872628128c0cd17bb85" name="adea9996dfda22872628128c0cd17bb85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea9996dfda22872628128c0cd17bb85">&#9670;&#160;</a></span>crucialPipelines() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt; std::string, std::map&lt; std::string, std::map&lt; std::string, float &gt; &gt; &gt; Actions::crucialPipelines </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sourceVertex</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>destVertex</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identify crucial pipelines and their impact on affected cities. </p>
+<p>This function analyzes the water distribution network represented by the given graph to identify crucial pipelines between the specified source and destination vertices. It determines the impact of these pipelines on affected cities, considering the current flow distribution in the network. The result is a nested map structure containing information about the crucial pipelines and their impact on affected cities.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water distribution network. </td></tr>
+    <tr><td class="paramname">sourceVertex</td><td>The info attribute of the source vertex of crucial pipelines. </td></tr>
+    <tr><td class="paramname">destVertex</td><td>The info attribute of the destination vertex of crucial pipelines. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::map&lt;std::string, std::map&lt;std::string, std::map&lt;std::string, float&gt;&gt;&gt; A map containing information about crucial pipelines and their impact on affected cities. </dd></dl>
+
+</div>
+</div>
+<a id="ae97494b7ef6665538915a1c27d808f0a" name="ae97494b7ef6665538915a1c27d808f0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae97494b7ef6665538915a1c27d808f0a">&#9670;&#160;</a></span>handleBidirectionalPipe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Actions::handleBidirectionalPipe </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_edge.html">Edge</a> *</td>          <td class="paramname"><span class="paramname"><em>edge1</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_edge.html">Edge</a> *</td>          <td class="paramname"><span class="paramname"><em>edge2</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;</td>          <td class="paramname"><span class="paramname"><em>source</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;</td>          <td class="paramname"><span class="paramname"><em>dest</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const map&lt; string, int &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>originalFlowMap</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_actions.html">Actions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>a</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::map&lt; std::string, float &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>affectedCities</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identifies the cities in need of water supply. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A map containing the cities in need of water supply and their respective deficits. </dd></dl>
+
+</div>
+</div>
+<a id="ae4e0edb6664def7c26c1bc4e5a73c3a5" name="ae4e0edb6664def7c26c1bc4e5a73c3a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4e0edb6664def7c26c1bc4e5a73c3a5">&#9670;&#160;</a></span>handleUnidirectionalPipe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Actions::handleUnidirectionalPipe </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_edge.html">Edge</a> *</td>          <td class="paramname"><span class="paramname"><em>edge</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;</td>          <td class="paramname"><span class="paramname"><em>source</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const string &amp;</td>          <td class="paramname"><span class="paramname"><em>dest</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const map&lt; string, int &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>originalFlowMap</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_actions.html">Actions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>a</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::map&lt; std::string, float &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>affectedCities</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identifies the cities in need of water supply. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A map containing the cities in need of water supply and their respective deficits. </dd></dl>
+
+</div>
+</div>
+<a id="a11d5c1d77765818a11acba8fa0abca0f" name="a11d5c1d77765818a11acba8fa0abca0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11d5c1d77765818a11acba8fa0abca0f">&#9670;&#160;</a></span>maxFlowAllCities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">map&lt; string, int &gt; Actions::maxFlowAllCities </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the maximum amount of water that can reach each city. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A map containing the maximum amount of water that can reach each city. </dd></dl>
+
+</div>
+</div>
+<a id="af0c3a2ed481b1e5fe900986a4d6efb65" name="af0c3a2ed481b1e5fe900986a4d6efb65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0c3a2ed481b1e5fe900986a4d6efb65">&#9670;&#160;</a></span>maxFlowSpecificCity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Actions::maxFlowSpecificCity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_graph.html">Graph</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>g</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string</td>          <td class="paramname"><span class="paramname"><em>city</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the maximum amount of water that can reach a specific city. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Reference to the graph representing the water supply network. </td></tr>
+    <tr><td class="paramname">city</td><td>The code of the city for which the maximum flow is to be calculated. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The maximum amount of water that can reach the specified city. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="_actions_8h_source.html">Actions.h</a></li>
 <li>src/<b>Actions.cpp</b></li>

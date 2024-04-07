@@ -160,13 +160,10 @@ bool Graph::addEdge(const std::string& source, const std::string& dest, int dire
         return false;
     if (direction == 1) {
         v1->addEdge(v1, v2, capacity);
-        allEdges[v1->info].push_back(Edge(v1, v2, capacity));
     }
     else if (direction==0) {
         v1->addEdge(v1, v2, capacity);
-        allEdges[v1->info].push_back(Edge(v1, v2, capacity));
         v2->addEdge(v2, v1, capacity);
-        allEdges[v2->info].push_back(Edge(v2, v1, capacity));
     }
     return true;
 }

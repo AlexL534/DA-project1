@@ -35,7 +35,21 @@ public:
      * @param g Reference to the graph representing the water supply network.
      * @return A map containing the maximum amount of water that can reach each city.
      */
-    map<string, int> maxFlowAllCities(Graph& g); //2.2
+    map<string, int> maxFlowAllCities(Graph& g); //2.1
+    /**
+     * @brief Determine the cities in need of additional water supply.
+     *
+     * This function calculates the demand for water supply in each city based on the maximum
+     * flow computed for the water distribution network represented by the given graph. It
+     * compares the demand for water in each city with the maximum flow reaching that city and
+     * identifies the cities where the supply doesn't meet the demand. The result is a map
+     * containing the names of cities and the deficit amount of water they require.
+     *
+     * @param g Reference to the graph representing the water distribution network.
+     * @return std::map<std::string, int> A map containing the names of cities in need and their
+     * deficit amount of water supply.
+     */
+    map<string, int> citiesInNeed(Graph& g); //2.2
     /**
      * @brief Balances the water supply network and calculates the metrics.
      *
@@ -74,13 +88,33 @@ public:
      */
     void handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,const map<string, int>& originalFlowMap,Actions& a, Graph& g, std::map<std::string, float>& affectedCities);
     /**
-     * @brief Identifies the cities in need of water supply.
+     * @brief Identify crucial pipelines and their impact on affected cities.
      *
-     * @param g Reference to the graph representing the water supply network.
-     * @return A map containing the cities in need of water supply and their respective deficits.
+     * This function analyzes the water distribution network represented by the given graph
+     * to identify crucial pipelines between the specified source and destination vertices.
+     * It determines the impact of these pipelines on affected cities, considering the current
+     * flow distribution in the network. The result is a nested map structure containing
+     * information about the crucial pipelines and their impact on affected cities.
+     *
+     * @param g Reference to the graph representing the water distribution network.
+     * @param sourceVertex The info attribute of the source vertex of crucial pipelines.
+     * @param destVertex The info attribute of the destination vertex of crucial pipelines.
+     * @return std::map<std::string, std::map<std::string, std::map<std::string, float>>> A map containing
+     * information about crucial pipelines and their impact on affected cities.
      */
-    map<string, int> citiesInNeed(Graph& g);
-    std::map<std::string, std::map<std::string, std::map<std::string, float>>> crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex); //3.3
+    std::map<std::string, std::map<std::string, std::map<std::string, float>>> crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex);
+    /**
+     * @brief Identify crucial pipelines affecting a specific city and their impact on water supply.
+     *
+     * This function analyzes the water distribution network represented by the given graph
+     * to identify crucial pipelines connected to the specified city. It simulates pipeline
+     * malfunctions by temporarily setting their capacities to zero and recalculates the flow
+     * distribution in the network. If any city experiences a water supply deficit due to the
+     * malfunctioning pipelines, those pipelines are deemed crucial for the specified city.
+     *
+     * @param g Reference to the graph representing the water distribution network.
+     * @param cityCode The unique code identifying the city.
+     */
     void crucialPipelines(Graph& g, const std::string& cityCode);
     Graph heuristic_evaluation(double orig_variance,double orig_average,double orig_max_diff,Graph &g);
     /**

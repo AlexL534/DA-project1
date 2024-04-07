@@ -80,41 +80,22 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
         }
     }
 
-    g.edmondsKarp("S", "Si");
+    g.fordFulkerson(g, "S", "Si");
+    //g.edmondsKarp("S", "Si");
+    auto values = calculateMetrics(g);
 
-    // Calculate initial metrics
-    vector<int> diff;
-    int orig_max_diff = INT_MIN;
-    int sum = 0, count = 0;
-    double orig_average = 0, orig_variance = 0;
+    //Initially the average of the difference between capacity and flow of each pipe was: 146
+    //The variance of the difference between capacity and flow of each pipe was: 48480.4
+    //And the maximum difference between capacity and flow of each pipe was: 750
 
-    // Iterate over all vertices in the graph
-    for (Vertex* v : g.getVertexSet()) {
-        if (v->getInfo() != "S" && v->getInfo() != "Si") {
-            // Iterate over all edges adjacent to the current vertex
-            for (Edge *e: v->getAdj()) {
-                int d = e->getCapacity() - e->getFlow();
-                diff.push_back(d);
-                sum += d;
-                count++;
-                if (d > orig_max_diff) {
-                    orig_max_diff = d;
-                }
-            }
-        }
-    }
-    orig_average = sum / count;
-    for (int d : diff) {
-        orig_variance += pow(d - orig_average, 2);
-    }
-    orig_variance /= (count - 1);
-
-    cout << "Initially the average of the difference between capacity and flow of each pipe was: " << orig_average << endl;
-    cout << "The variance of the difference between capacity and flow of each pipe was: " << orig_variance << endl;
-    cout << "And the maximum difference between capacity and flow of each pipe was: " << orig_max_diff << endl;
+    cout << "Initially the average of the difference between capacity and flow of each pipe was: " << values[0] << endl; //orig_average
+    cout << "The variance of the difference between capacity and flow of each pipe was: " << values[1]  << endl; //orig_variance
+    cout << "And the maximum difference between capacity and flow of each pipe was: " << values[2]  << endl; //orig_max_diff
     cout << endl;
 
     // Balancing algorithm
+    //g = heuristic_evaluation(values[1] , values[0], values[2], g);
+
     for (Vertex* v : g.getVertexSet()) {
         if (v->getInfo() != "S" && v->getInfo() != "Si") {
             // Iterate over all edges adjacent to the current vertex
@@ -125,36 +106,61 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
         }
     }
 
-    // Calculate final metrics
-    diff.clear();
-    int final_max_diff = INT_MIN;
-    sum = 0, count = 0;
-    double final_average = 0, final_variance = 0;
-    for (Vertex* v : g.getVertexSet()) {
-        // Iterate over all edges adjacent to the current vertex
-        for (Edge* e : v->getAdj()) {
-            int d = e->getCapacity() - e->getFlow();
-            diff.push_back(d);
-            sum += d;
-            count++;
-            if (d > final_max_diff) {
-                final_max_diff = d;
-            }
-        }
-    }
-    final_average = sum / count;
-    for (int d : diff) {
-        final_variance += pow(d - final_average, 2);
-    }
-    final_variance /= (count - 1);
+    auto finalValues = calculateMetrics(g);
 
-    cout << "After using the balancing algorithm the average of the difference between capacity and flow of each pipe is: " << final_average << endl;
-    cout << "The variance of the difference between capacity and flow of each pipe is: " << final_variance << endl;
-    cout << "And the maximum difference between capacity and flow of each pipe is: " << final_max_diff << endl;
+    cout << "After using the balancing algorithm the average of the difference between capacity and flow of each pipe is: " << finalValues[0] << endl;
+    cout << "The variance of the difference between capacity and flow of each pipe is: " << finalValues[1] << endl;
+    cout << "And the maximum difference between capacity and flow of each pipe is: " << finalValues[2] << endl;
 
     //remove these vertices so that graph is not altered
     g.removeVertex("Si");
     g.removeVertex("S");
+}
+
+void Actions::analyseReservoirs(Graph &g) {
+    string reservoirCode;
+    cout << "Enter the code of the reservoir you want to analyse: ";
+    cin >> reservoirCode;
+
+    Reservoir* reservoir = nullptr;
+
+    // Find the reservoir with the specified code
+    for (auto& res : reservoirs) {
+        if (res.getCode() == reservoirCode) {
+            reservoir = &res;
+            break;
+        }
+    }
+
+    if (reservoir == nullptr) {
+        cout << "Reservoir with code " << reservoirCode << " not found." << endl;
+        return;
+    }
+
+    // Create a copy of the original graph
+    Graph tempGraph = g;
+
+    map<string, int> oldFlowMap = maxFlowAllCities(tempGraph);
+
+
+    // Set the capacity of edges connected to the reservoir to zero
+    for (auto& edge : tempGraph.getAdjacentEdges(reservoirCode)) {
+        edge->setCapacity(0);
+    }
+
+    // Calculate the maximum flow after removing the reservoir
+    map<string, int> currentFlowMap = maxFlowAllCities(tempGraph);
+
+    // Display the impact on delivery capacity for each city
+    cout << "Impact of removing reservoir " << reservoirCode << " on delivery capacity:" << endl;
+    for (const auto &city : cities) {
+        int originalFlow = oldFlowMap[city.getCode()];
+        int currentFlow = currentFlowMap[city.getCode()];
+        int impact = originalFlow - currentFlow;
+        if (impact > 0) {
+            cout << "City " << city.getCode() << ": " << "|OLD FLOW - " << originalFlow << "| NEW FLOW - " << currentFlow<<"| reduced by " << impact << " units." << endl;
+        }
+    }
 }
 
 
@@ -358,6 +364,70 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
     } else {
         cout << source << " - " << dest << " is removed. No city is affected." << endl;
     }
+}
+
+Graph Actions::heuristic_evaluation(double orig_variance, double orig_average, double orig_max_diff,
+                                    Graph &g) {
+    g.addVertex("SOURCE", VertexType::RESERVOIR, 200000);
+    g.addVertex("SINK", VertexType::CITY, 100000000);
+
+    for (auto it:g.getVertexSet()){
+        if(it->isType(VertexType::RESERVOIR) && it->getInfo() != "SOURCE"){
+            int max = reservoirs[it->getId() - 1].getMaxDelivery();
+            g.addEdge("SOURCE", it->getInfo(), 1, max);
+        }
+
+    }
+    for (auto it: g.getVertexSet()) {
+        if (it->isType(VertexType::CITY) && it->getInfo() != "SINK") {
+            int demand =(int) cities[it->getId() - 1].getDemand();
+            g.addEdge(it->getInfo(), "SINK", 1, demand);
+        }
+    }
+    float fl = 100000000000000.000;
+    g.edmondsKarp("SOURCE", "SINK");
+
+    return g;
+
+
+    //vector<Edge*> allEdges;
+    //for(auto it: )
+
+
+}
+
+vector<double> Actions::calculateMetrics(Graph &g) {
+    // Calculate initial metrics
+    vector<double> res;
+    vector<int> diff;
+    int orig_max_diff = INT_MIN;
+    int sum = 0, count = 0;
+    double orig_average = 0, orig_variance = 0;
+
+    // Iterate over all vertices in the graph
+    for (Vertex* v : g.getVertexSet()) {
+        if (v->getInfo() != "S" && v->getInfo() != "Si") {
+            // Iterate over all edges adjacent to the current vertex
+            for (Edge *e: v->getAdj()) {
+                int d = e->getCapacity() - e->getFlow();
+                diff.push_back(d);
+                sum += d;
+                count++;
+                if (d > orig_max_diff) {
+                    orig_max_diff = d;
+                }
+            }
+        }
+    }
+    orig_average = sum / count;
+    for (int d : diff) {
+        orig_variance += pow(d - orig_average, 2);
+    }
+    orig_variance /= (count - 1);
+    res.push_back(orig_average);
+    res.push_back(orig_variance);
+    res.push_back(orig_max_diff);
+    return res;
 }
 
 

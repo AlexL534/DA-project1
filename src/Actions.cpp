@@ -247,7 +247,8 @@ void Actions::analyzePumpingStations(Graph& g) {
     }
 }
 
-void Actions::crucialPipelines(Graph& g) {
+std::map<std::string, std::map<std::string, std::map<std::string, float>>> Actions::crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex) {
+    std::map<std::string, std::map<std::string, std::map<std::string, float>>> affectedCitiesMap; // Map to store affected cities
     Actions a(reservoirs, stations, cities, pipes);
     map<string, int> originalFlowMap = a.maxFlowAllCities(g);
 
@@ -256,33 +257,39 @@ void Actions::crucialPipelines(Graph& g) {
         string dest = pipe.getPointB();
         int direction = pipe.getDirection();
 
-        Edge* edge = nullptr;
-        Edge* edge2 = nullptr; // For bidirectional pipes
+        if (source == sourceVertex && dest == destVertex) {
 
-        if (direction == 1) {
-            edge = g.findEdge(source, dest);
-        } else { // Bidirectional
-            edge = g.findEdge(source, dest);
-            edge2 = g.findEdge(dest, source);
-        }
+            Edge *edge = nullptr;
+            Edge *edge2 = nullptr; // For bidirectional pipes
 
-        if (edge == nullptr) {
-            // Handle edge not found
-            continue;
-        }
+            if (direction == 1) {
+                edge = g.findEdge(source, dest);
+            } else { // Bidirectional
+                edge = g.findEdge(source, dest);
+                edge2 = g.findEdge(dest, source);
+            }
 
-        // Handle unidirectional pipes
-        if (direction == 1) {
-            handleUnidirectionalPipe(edge, source, dest, originalFlowMap, a, g);
-        } else { // Handle bidirectional pipes
-            handleBidirectionalPipe(edge, edge2, source, dest, originalFlowMap, a, g);
+            if (edge == nullptr) {
+                // Handle edge not found
+                continue;
+            }
+
+            std::map<std::string, float> affectedCities;
+
+            // Handle unidirectional pipes
+            if (direction == 1) {
+                handleUnidirectionalPipe(edge, source, dest, originalFlowMap, a, g, affectedCities);
+            } else { // Handle bidirectional pipes
+                handleBidirectionalPipe(edge, edge2, source, dest, originalFlowMap, a, g, affectedCities);
+            }
         }
     }
+    return affectedCitiesMap;
 }
 
 void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,
                                        const map<string, int>& originalFlowMap,
-                                       Actions& a, Graph& g) {
+                                       Actions& a, Graph& g, std::map<std::string, float>& affectedCities) {
 
     int originalCapacity = edge->getCapacity();
     int originalFlow = edge->getFlow();
@@ -321,7 +328,7 @@ void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const s
 
 void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source, const string& dest,
                                       const map<string, int>& originalFlowMap,
-                                      Actions& a, Graph& g) {
+                                      Actions& a, Graph& g, std::map<std::string, float>& affectedCities) {
     int originalCapacity1 = edge1->getCapacity();
     int originalFlow1 = edge1->getFlow();
     edge1->setCapacity(0);
@@ -359,5 +366,93 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
     } else {
         cout << source << " - " << dest << " is removed. No city is affected." << endl;
         cout << "\n";
+    }
+}
+
+void Actions::crucialPipelines(Graph& g, const std::string& cityCode) {
+    // Find the city with the specified code
+    City* city = nullptr;
+    for (auto& c : cities) {
+        if (c.getCode() == cityCode) {
+            city = &c;
+            break;
+        }
+    }
+
+    if (city == nullptr) {
+        cout << "City not found.\n";
+        return;
+    }
+
+    map<string, int> originalFlowMap = maxFlowAllCities(g);
+    map<string, int> currentFlowMap;
+
+    // Keep track of whether any pipelines affecting the city are found
+    bool foundCrucialPipelines = false;
+
+    // Iterate over each pipeline
+    for (const auto& pipe : pipes) {
+        // Check if the pipeline connects to the specified city
+        if (pipe.getPointA() == cityCode || pipe.getPointB() == cityCode) {
+            string source = pipe.getPointA();
+            string dest = pipe.getPointB();
+            int direction = pipe.getDirection();
+
+            Edge* edge = nullptr;
+            Edge* edge2 = nullptr; // For bidirectional pipes
+
+            // Find the edge corresponding to the pipeline
+            if (direction == 1) {
+                edge = g.findEdge(source, dest);
+            } else { // Bidirectional
+                edge = g.findEdge(source, dest);
+                edge2 = g.findEdge(dest, source);
+            }
+
+            // Skip if the edge is not found
+            if (edge == nullptr) {
+                continue;
+            }
+
+            // Temporarily set capacity to 0 to simulate pipeline malfunction
+            int originalCapacity = edge->getCapacity();
+            edge->setCapacity(0);
+
+            if (edge2 != nullptr) {
+                edge2->setCapacity(0);
+            }
+
+            // Calculate the current flow after simulating pipeline malfunction
+            currentFlowMap = maxFlowAllCities(g);
+
+            // Reset the capacity back to the original value
+            edge->setCapacity(originalCapacity);
+            if (edge2 != nullptr) {
+                edge2->setCapacity(originalCapacity);
+            }
+
+            // Check if any city has a water supply deficit due to this pipeline malfunction
+            bool affected = false;
+            for (const auto& pair : originalFlowMap) {
+                const string& cityCode = pair.first;
+                int initialFlow = pair.second;
+                int currentFlow = currentFlowMap[cityCode];
+                if (currentFlow < initialFlow) {
+                    affected = true;
+                    break;
+                }
+            }
+
+            // If any city is affected, display the pipeline as crucial
+            if (affected) {
+                foundCrucialPipelines = true;
+                cout << "Pipeline " << pipe.getPointA() << "-" << pipe.getPointB() << " is crucial for city " << cityCode << endl;
+            }
+        }
+    }
+
+    // If no pipelines affecting the city are found, display a message
+    if (!foundCrucialPipelines) {
+        cout << "There are no pipelines crucial to city " << cityCode << endl;
     }
 }

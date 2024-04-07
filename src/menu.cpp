@@ -68,6 +68,7 @@ void menu(Graph& graph, Actions& actions){
                         cout << "Demand: " << it.getDemand() << endl;
                         cout << "Actual Flow: " << value << endl;
                         cout << "Deficit: " << it.getDemand() - value << endl;
+                        cout << endl;
                     }
                 }
                 break;

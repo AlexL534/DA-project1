@@ -3,6 +3,7 @@
 
 
 #include <map>
+#include <set>
 #include "graph.h"
 #include "City.h"
 #include "Station.h"
@@ -34,7 +35,7 @@ public:
     void handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source,const string& dest, const map<string, int>& originalFlowMap,Actions& a, Graph& g);
     void handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,const map<string, int>& originalFlowMap,Actions& a, Graph& g);
     map<string, int> citiesInNeed(Graph& g);
-    Graph heuristic_evaluation(double orig_variance,double orig_average,double orig_max_diff,Graph &g);
+    Graph heuristic_evaluation(Graph &g);
     vector<double> calculateMetrics(Graph& g);
 };
 

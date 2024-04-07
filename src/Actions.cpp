@@ -36,6 +36,7 @@ int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
     g.removeVertex("Si");
     g.removeVertex("S");
 
+
     return maxFlow;
 }
 
@@ -62,6 +63,7 @@ map<string, int> Actions::citiesInNeed(Graph &g) {
 Actions::Actions(vector<Reservoir> reservoirs_, vector<Station> stations_, vector<City> cities_, vector<Pipe> pipes_): reservoirs(reservoirs_), stations(stations_), cities(cities_), pipes(pipes_) {}
 
 void Actions::balanceAndCalculateMetrics(Graph& g) {
+
     //edmonds-karp
     g.addVertex("Si", VertexType::CITY, 20000);
     g.addVertex("S", VertexType::RESERVOIR, 10000);
@@ -80,16 +82,16 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
         }
     }
 
-    g.fordFulkerson(g, "S", "Si");
+
+    g.edmondsKarp("S", "Si");
 
     g.removeVertex("Si");
     g.removeVertex("S");
 
-    //g.edmondsKarp("S", "Si");
     auto values = calculateMetrics(g);
 
-    //Initially the average of the difference between capacity and flow of each pipe was: 146
-    //The variance of the difference between capacity and flow of each pipe was: 48480.4
+    //Initially the average of the difference between capacity and flow of each pipe was: 173
+    //The variance of the difference between capacity and flow of each pipe was: 53450.5
     //And the maximum difference between capacity and flow of each pipe was: 750
 
     cout << "Initially the average of the difference between capacity and flow of each pipe was: " << values[0] << endl; //orig_average
@@ -98,7 +100,11 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     cout << endl;
 
     // Balancing algorithm
-    g = heuristic_evaluation(values[1] , values[0], values[2], g);
+
+    g = heuristic_evaluation(g);
+
+    g.removeVertex("SOURCE");
+    g.removeVertex("SINK");
 
 
     auto finalValues = calculateMetrics(g);
@@ -107,9 +113,6 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     cout << "The variance of the difference between capacity and flow of each pipe is: " << finalValues[1] << endl;
     cout << "And the maximum difference between capacity and flow of each pipe is: " << finalValues[2] << endl;
 
-    //remove these vertices so that graph is not altered
-    g.removeVertex("Si");
-    g.removeVertex("S");
 }
 
 void Actions::analyseReservoirs(Graph& g) {
@@ -369,32 +372,114 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
     }
 }
 
-Graph Actions::heuristic_evaluation(double orig_variance, double orig_average, double orig_max_diff,
-                                    Graph &g) {
-    g.addVertex("SOURCE", VertexType::RESERVOIR, 200000);
-    g.addVertex("SINK", VertexType::CITY, 100000000);
+Graph Actions::heuristic_evaluation(Graph &g) {
+    vector<Edge*> edges;
+    map<string, int> m = maxFlowAllCities(g);
 
-    for (auto it:g.getVertexSet()){
-        if(it->isType(VertexType::RESERVOIR) && it->getInfo() != "SOURCE"){
-            int max = reservoirs[it->getId() - 1].getMaxDelivery();
-            g.addEdge("SOURCE", it->getInfo(), 1, max);
+    for(Vertex * it: g.getVertexSet()){
+        if (it->isType(VertexType::CITY)){
+            City city = cities[it->getId() -1];
+            float value = (float) m[it->getInfo()];
+            if(city.getDemand() - value == 0){
+                for(Edge * edge:it->getPath()){
+                    edges.push_back(edge);
+                }
+            }
+        }
+    }
+
+    map<City, vector<Edge*>> cityEdges;
+
+
+    for(auto it : edges){
+        City city = cities[it->getDest()->getId()-1];
+        cityEdges[city].push_back(it);
+    }
+
+
+
+    for(auto& c: cityEdges){
+        vector<Edge*> edgesToUse;
+        vector<Edge*> es = c.second;
+        int demand = (int) c.first.getDemand();
+        int nEdges = (int) c.second.size();
+        int bestDemand = demand/nEdges;
+
+        for(auto& edge: es){
+            auto path = edge->getSource()->getPath();
+            if(edge->getFlow() > bestDemand){
+                edgesToUse.push_back(edge);
+            }
+            else{
+                for(auto edge1 : path) {
+                    if(edge->getFlow() < edge1->getCapacity() && edge->getCapacity() < edge1->getCapacity()){
+                        edge->setFlow(edge->getCapacity());
+                    }
+                }
+
+            }
+
         }
 
-    }
-    for (auto it: g.getVertexSet()) {
-        if (it->isType(VertexType::CITY) && it->getInfo() != "SINK") {
-            int demand =(int) cities[it->getId() - 1].getDemand();
-            g.addEdge(it->getInfo(), "SINK", 1, demand);
+        int currentDemand = demand;
+        if(edgesToUse.size() > 0){
+            bestDemand = demand / edgesToUse.size();
+            for(auto& it: edgesToUse){
+                if(currentDemand >= bestDemand){
+                    it->setFlow(bestDemand);
+                    currentDemand = currentDemand - bestDemand;
+                }
+                else{
+                    it->setFlow(currentDemand);
+                }
+            }
+            for(auto &it: edgesToUse){
+                if(it->getFlow() > it->getCapacity()){
+                    it->setFlow(it->getCapacity());
+                }
+            }
+            }
+        }
+
+
+
+    for(auto it: g.getVertexSet()){
+        if(it->isType(VertexType::RESERVOIR)){
+            auto reservoir = reservoirs[it->getId() - 1];
+            int max = reservoir.getMaxDelivery();
+            int waterInUse = 0;
+            for(auto edge:it->getAdj()){
+                waterInUse += edge->getFlow();
+            }
+            int curr_water = max - waterInUse;
+            if(curr_water > 0){
+                for(auto edge:it->getAdj()){
+                    int residual = edge->getCapacity() - edge->getFlow();
+                    if(residual > 0){
+                        if(curr_water - residual >= 0){
+                            edge->setFlow(edge->getCapacity());
+                            curr_water = curr_water - residual;
+                        }
+
+                        else if(curr_water > 0 && (edge->getCapacity() - edge->getFlow()) > curr_water){
+                            edge->setFlow(edge->getFlow() + curr_water);
+                            curr_water = 0;
+
+                        }
+
+                    }
+                }
+            }
+
+
         }
     }
 
 
     return g;
 
-
     //vector<Edge*> allEdges;
     //for(auto it: )
-
 
 }
 

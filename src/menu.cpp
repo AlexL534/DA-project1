@@ -46,8 +46,8 @@ void menu(Graph& graph, Actions& actions){
                         // Get the city name from the city code
                         string cityName;
                         for (auto& city : cityNameMap) {
-                            if (city.second == it.first) {
-                                cityName = city.first;
+                            if (city.first == it.first) {
+                                cityName = city.second;
                                 break;
                             }
                         }
@@ -73,7 +73,6 @@ void menu(Graph& graph, Actions& actions){
                 break;
             case 3:{
                 actions.balanceAndCalculateMetrics(graph);
-                break;
             }
             case 4:
                 actions.analyseReservoirs(graph);

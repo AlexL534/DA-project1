@@ -76,7 +76,7 @@ void menu(Graph& graph, Actions& actions){
                 break;
             }
             case 4:
-                // Call the function to evaluate the network's resiliency if one specific water reservoir is out of commission
+                actions.analyseReservoirs(graph);
                 break;
             case 5:
                 actions.analyzePumpingStations(graph);

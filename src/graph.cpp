@@ -348,3 +348,74 @@ void Graph::edmondsKarp(const std::string &source, const std::string &sink) {
     }
 }
 
+void Graph::fordFulkerson(Graph &g, const std::string &source, const std::string &sink) {
+    for (Vertex* v : g.getVertexSet()) {
+        for (Edge* e : v->getAdj()) {
+            e->setFlow(0);
+        }
+    }
+
+    int maxFlow = 0;
+
+    // Repeat until no augmenting path exists
+    while (true) {
+        // Find an augmenting path using BFS
+        vector<Edge*> path = findAugmentingPath(g, source, sink);
+        if (path.empty()) {
+            break; // No augmenting path found, terminate
+        }
+
+        // Determine the maximum flow that can be pushed through this path
+        int minCapacity = std::numeric_limits<int>::max();
+        for (Edge* edge : path) {
+            minCapacity = std::min(minCapacity, edge->getCapacity() - edge->getFlow());
+        }
+
+        // Augment flow along the path
+        for (Edge* edge : path) {
+            edge->setFlow(edge->getFlow() + minCapacity);
+        }
+
+        // Update the maximum flow
+        maxFlow += minCapacity;
+    }
+
+}
+
+vector<Edge *> Graph::findAugmentingPath(Graph &g, const std::string &source, const std::string &sink) {
+    vector<Edge*> path;
+    map<Vertex*, Edge*> parent; // Map to store parent edges for each vertex
+    queue<Vertex*> q;
+    q.push(g.findVertex(source));
+
+    // BFS to find augmenting path
+    while (!q.empty()) {
+        Vertex* current = q.front();
+        q.pop();
+
+        // Check if the sink is reached
+        if (current->getInfo() == sink) {
+            // Reconstruct the augmenting path
+            Vertex* v = current;
+            while (v != g.findVertex(source)) {
+                Edge* edge = parent[v];
+                path.push_back(edge);
+                v = edge->getSource();
+            }
+            std::reverse(path.begin(), path.end());
+            break;
+        }
+
+        // Explore neighbors
+        for (Edge* edge : current->getAdj()) {
+            Vertex* neighbor = edge->getDest();
+            // Check if the neighbor has not been visited and there is residual capacity
+            if (!parent.count(neighbor) && edge->getCapacity() > edge->getFlow()) {
+                parent[neighbor] = edge;
+                q.push(neighbor);
+            }
+        }
+    }
+
+    return path;
+}

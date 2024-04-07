@@ -61,6 +61,4 @@ public:
         return code == city.code;
     }
 };
-
-
 #endif //WATER_SUPPLY_MANAGEMENT_CITY_H

@@ -60,25 +60,19 @@ public:
      */
     void analyzePumpingStations(Graph& g); //3.2
     /**
-     * @brief Avoids crucial pipelines in the water supply network.
+     * @brief Identifies the cities in need of water supply.
      *
      * @param g Reference to the graph representing the water supply network.
+     * @return A map containing the cities in need of water supply and their respective deficits.
      */
-    void crucialPipelines(Graph& g); //3.3
+    void handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source,const string& dest, const map<string, int>& originalFlowMap,Actions& a, Graph& g, std::map<std::string, float>& affectedCities);
     /**
      * @brief Identifies the cities in need of water supply.
      *
      * @param g Reference to the graph representing the water supply network.
      * @return A map containing the cities in need of water supply and their respective deficits.
      */
-    void handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& source,const string& dest, const map<string, int>& originalFlowMap,Actions& a, Graph& g);
-    /**
-     * @brief Identifies the cities in need of water supply.
-     *
-     * @param g Reference to the graph representing the water supply network.
-     * @return A map containing the cities in need of water supply and their respective deficits.
-     */
-    void handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,const map<string, int>& originalFlowMap,Actions& a, Graph& g);
+    void handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,const map<string, int>& originalFlowMap,Actions& a, Graph& g, std::map<std::string, float>& affectedCities);
     /**
      * @brief Identifies the cities in need of water supply.
      *
@@ -86,7 +80,8 @@ public:
      * @return A map containing the cities in need of water supply and their respective deficits.
      */
     map<string, int> citiesInNeed(Graph& g);
-
+    std::map<std::string, std::map<std::string, std::map<std::string, float>>> crucialPipelines(Graph& g, const std::string& sourceVertex, const std::string& destVertex); //3.3
+    void crucialPipelines(Graph& g, const std::string& cityCode);
     Graph heuristic_evaluation(double orig_variance,double orig_average,double orig_max_diff,Graph &g);
     /**
      * @brief Calculates the metrics of the water supply network.
@@ -96,6 +91,4 @@ public:
      */
     vector<double> calculateMetrics(Graph& g);
 };
-
-
 #endif

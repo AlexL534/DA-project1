@@ -77,6 +77,7 @@ void menu(Graph& graph, Actions& actions){
             }
             case 4:
                 actions.analyseReservoirs(graph);
+                graph = g.buildGraph(parseReservoirs(),parseStations(),parsePipes(),parseCities());
                 break;
             case 5:
                 actions.analyzePumpingStations(graph);

@@ -81,6 +81,10 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     }
 
     g.fordFulkerson(g, "S", "Si");
+
+    g.removeVertex("Si");
+    g.removeVertex("S");
+
     //g.edmondsKarp("S", "Si");
     auto values = calculateMetrics(g);
 
@@ -94,17 +98,8 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     cout << endl;
 
     // Balancing algorithm
-    //g = heuristic_evaluation(values[1] , values[0], values[2], g);
+    g = heuristic_evaluation(values[1] , values[0], values[2], g);
 
-    for (Vertex* v : g.getVertexSet()) {
-        if (v->getInfo() != "S" && v->getInfo() != "Si") {
-            // Iterate over all edges adjacent to the current vertex
-            for (Edge *e: v->getAdj()) {
-                int d = e->getCapacity() - e->getFlow();
-                e->setFlow(e->getFlow() + d); // Adjust flow to minimize imbalance
-            }
-        }
-    }
 
     auto finalValues = calculateMetrics(g);
 
@@ -117,7 +112,7 @@ void Actions::balanceAndCalculateMetrics(Graph& g) {
     g.removeVertex("S");
 }
 
-void Actions::analyseReservoirs(Graph &g) {
+void Actions::analyseReservoirs(Graph& g) {
     string reservoirCode;
     cout << "Enter the code of the reservoir you want to analyse: ";
     cin >> reservoirCode;
@@ -151,6 +146,8 @@ void Actions::analyseReservoirs(Graph &g) {
     // Calculate the maximum flow after removing the reservoir
     map<string, int> currentFlowMap = maxFlowAllCities(tempGraph);
 
+    int n = 0;
+
     // Display the impact on delivery capacity for each city
     cout << "Impact of removing reservoir " << reservoirCode << " on delivery capacity:" << endl;
     for (const auto &city : cities) {
@@ -158,9 +155,15 @@ void Actions::analyseReservoirs(Graph &g) {
         int currentFlow = currentFlowMap[city.getCode()];
         int impact = originalFlow - currentFlow;
         if (impact > 0) {
+            n = 1;
             cout << "City " << city.getCode() << ": " << "|OLD FLOW - " << originalFlow << "| NEW FLOW - " << currentFlow<<"| reduced by " << impact << " units." << endl;
         }
     }
+
+    if(n == 0){
+        cout << endl << "There are no cities affected" << endl;
+    }
+
 }
 
 
@@ -384,8 +387,7 @@ Graph Actions::heuristic_evaluation(double orig_variance, double orig_average, d
             g.addEdge(it->getInfo(), "SINK", 1, demand);
         }
     }
-    float fl = 100000000000000.000;
-    g.edmondsKarp("SOURCE", "SINK");
+
 
     return g;
 

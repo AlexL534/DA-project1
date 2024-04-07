@@ -22,12 +22,33 @@ public:
             const int &direction
     );
 
+
+    /**
+     * @brief Get the point A of the pipe
+     *
+     * @return string
+     */
     string getPointA() const;
 
+    /**
+     * @brief Get the point B of the pipe
+     *
+     * @return string
+     */
     string getPointB() const;
 
+    /**
+     * @brief Get the capacity of the pipe
+     *
+     * @return int
+     */
     int getCapacity() const;
 
+    /**
+     * @brief Get the direction of the pipe
+     *
+     * @return int
+     */
     int getDirection() const;
 
     void setCapacity(int capacity);

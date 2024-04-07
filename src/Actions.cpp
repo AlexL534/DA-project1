@@ -251,7 +251,7 @@ void Actions::crucialPipelines(Graph& g) {
     Actions a(reservoirs, stations, cities, pipes);
     map<string, int> originalFlowMap = a.maxFlowAllCities(g);
 
-    for (auto& pipe : pipes) {
+    for (const auto& pipe : pipes) {
         string source = pipe.getPointA();
         string dest = pipe.getPointB();
         int direction = pipe.getDirection();
@@ -283,6 +283,7 @@ void Actions::crucialPipelines(Graph& g) {
 void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const string& dest,
                                        const map<string, int>& originalFlowMap,
                                        Actions& a, Graph& g) {
+
     int originalCapacity = edge->getCapacity();
     int originalFlow = edge->getFlow();
     edge->setCapacity(0);
@@ -290,20 +291,21 @@ void Actions::handleUnidirectionalPipe(Edge* edge, const string& source, const s
 
     map<string, int> currentFlowMap = a.maxFlowAllCities(g);
 
-    map<string,int> deficits;
+    edge->setCapacity(originalCapacity);
+    edge->setFlow(originalFlow);
+
+    map<string,float> deficits;
     for (const auto &city: cities) {
         auto it = originalFlowMap.find(city.getCode());
         if (it != originalFlowMap.end()) {
             int initialFlow = it->second;
             int currentFlow = currentFlowMap[city.getCode()];
+            float cityDemand = city.getDemand();
             if (currentFlow < initialFlow) {
-                deficits[city.getCode()] = city.getDemand() - currentFlow;
+                deficits[city.getCode()] = cityDemand - currentFlow;
             }
         }
     }
-
-    edge->setCapacity(originalCapacity);
-    edge->setFlow(originalFlow);
 
     if (!deficits.empty()) {
         cout << source << " - " << dest << " is removed. Cities affected:" << endl;
@@ -325,12 +327,16 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
     edge1->setCapacity(0);
     edge1->setFlow(0);
 
-    int originalCapacity2 = edge2->getCapacity();
     int originalFlow2 = edge2->getFlow();
     edge2->setCapacity(0);
     edge2->setFlow(0);
 
     map<string, int> currentFlowMap = a.maxFlowAllCities(g);
+
+    edge1->setCapacity(originalCapacity1);
+    edge1->setFlow(originalFlow1);
+    edge2->setCapacity(originalCapacity1);
+    edge2->setFlow(originalFlow2);
 
     map<string,int> deficits;
     for (const auto &city: cities) {
@@ -344,11 +350,6 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
         }
     }
 
-    edge1->setCapacity(originalCapacity1);
-    edge1->setFlow(originalFlow1);
-    edge2->setCapacity(originalCapacity2);
-    edge2->setFlow(originalFlow2);
-
     if (!deficits.empty()) {
         cout << source << " - " << dest << " is removed. Cities affected:" << endl;
         for (const auto& pair : deficits) {
@@ -357,8 +358,6 @@ void Actions::handleBidirectionalPipe(Edge* edge1, Edge* edge2, const string& so
         cout << endl;
     } else {
         cout << source << " - " << dest << " is removed. No city is affected." << endl;
+        cout << "\n";
     }
 }
-
-
-

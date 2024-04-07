@@ -287,7 +287,7 @@ void Actions::analyseReservoirs(Graph& g) {
         int impact = originalFlow - currentFlow;
         if (impact > 0) {
             n = 1;
-            cout << "City " << city.getCode() << ": " << "|OLD FLOW - " << originalFlow << "| NEW FLOW - " << currentFlow<<"| reduced by " << impact << " units." << endl;
+            cout << "City " << city.getCode() << ": " << "|OLD FLOW - " << originalFlow << "| NEW FLOW - " << currentFlow<<"| reduced by " << impact << " units. The deficit is " << city.getDemand() - currentFlow << "." << endl;
         }
     }
 

@@ -67,6 +67,7 @@ void menu(Graph& graph, Actions& actions){
                 break;
             case 3:{
                 actions.balanceAndCalculateMetrics(graph);
+                break;
             }
             case 4:
                 actions.analyseReservoirs(graph);

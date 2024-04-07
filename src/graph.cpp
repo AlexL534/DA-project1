@@ -110,16 +110,6 @@ void Vertex::setVisited(bool v) {
     visited = v;
 }
 
-int Vertex::getIndegree() const {
-    return indegree;
-}
-
-void Vertex::setIndegree(int ind) {
-    indegree = ind;
-}
-
-
-
 std::vector<Edge*> Vertex::getAdj() const {
     return adj;
 }

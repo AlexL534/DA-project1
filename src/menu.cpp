@@ -44,30 +44,23 @@ void menu(Graph& graph, Actions& actions){
 
                     for(auto it : cityFlow){
                         // Get the city name from the city code
-                        string cityName;
-                        for (auto& city : cityNameMap) {
-                            if (city.second == it.first) {
-                                cityName = city.first;
-                                break;
-                            }
-                        }
+                        std::string cityName = cityNameMap[it.first]; // Retrieve city name from the map
 
-                        std::cout << cityName << ' ' << it.second << " m^3/s" << std::endl;
+                        std::cout << it.first << '-' << cityName << ' ' << it.second << " m^3/s" << std::endl;
                     }
-                }
-                else {
+                } else {
                     std::cout << "Invalid choice. Please enter 1 or 2.\n";
                 }
                 break;
             case 2:
                 citiesInNeed = actions.citiesInNeed(graph);
-                for(auto it:cities){
-                    float value = (float) citiesInNeed[it.getCode()];
-                    if(it.getDemand() - value > 0) {
+                for(auto it : cities){
+                    float deficit = (float) citiesInNeed[it.getCode()];
+                    if(deficit > 0) {
                         cout << it.getCode() << "-" << it.getName() << endl;
                         cout << "Demand: " << it.getDemand() << endl;
-                        cout << "Actual Flow: " << value << endl;
-                        cout << "Deficit: " << it.getDemand() - value << endl;
+                        cout << "Actual Flow: " << it.getDemand() - deficit << endl;
+                        cout << "Deficit: " << deficit << endl;
                         cout << endl;
                     }
                 }

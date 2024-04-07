@@ -1,7 +1,5 @@
 #include "Actions.h"
 #include <cmath>
-//Max flow cidade especifica
-
 int Actions::maxFlowSpecificCity(Graph& g, std::string city) {
 
     int maxFlow = 0;
@@ -52,7 +50,7 @@ map<string, int> Actions::citiesInNeed(Graph &g) {
     map<string, int> m;
     map<string, int> res;
     m = maxFlowAllCities(g);
-    for(auto it:cities){
+    for(auto it : cities){
         float value = (float) m[it.getCode()];
         if(it.getDemand() - value > 0) res[it.getCode()] = it.getDemand() - value;
     }
@@ -222,7 +220,7 @@ void Actions::analyseReservoirs(Graph &g) {
         int currentFlow = currentFlowMap[city.getCode()];
         int impact = originalFlow - currentFlow;
         if (impact > 0) {
-            cout << "City " << city.getCode() << ": " << "|OLD FLOW - " << originalFlow << "| NEW FLOW - " << currentFlow<<"| reduced by " << impact << " units." << endl;
+            cout << "City " << city.getCode() << ": " << "|OLD FLOW - " << originalFlow << "| NEW FLOW - " << currentFlow<<"| reduced by " << impact << " units. Deficit is " << city.getDemand() - currentFlow << " units." << endl;
         }
     }
 }

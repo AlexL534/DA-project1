@@ -1,4 +1,3 @@
-#define WATER_SUPPLY_MANAGEMENT_GRAPH_H
 #include <cstddef>
 #include <iostream>
 #include <unordered_map>
@@ -36,8 +35,6 @@ class Vertex {
     vector<Edge *> path;
     bool visited;
     Edge* prev;
-    int indegree;
-    int dist;
     void addEdge(Vertex *src, Vertex *dest, int capacity);
     bool removeEdgeTo(Vertex *d);
 public:
@@ -57,8 +54,6 @@ public:
     void setPath( vector<Edge *> p);
     vector<Edge*> getAdj() const;
     void setAdj( vector<Edge *> adj);
-    int getIndegree() const;
-    void setIndegree(int indegree);
     friend class Graph;
 };
 
@@ -67,17 +62,14 @@ class Edge {
     Vertex * dest;
     int flow;
     int capacity;
-    int weight;
 public:
     Edge(Vertex *d);
     Edge(Vertex *s, Vertex *d, int ca);
     Vertex *getDest() const;
     Vertex *getSource() const;
     void setDest(Vertex *dest);
-    int getWeight() const;
     int getFlow() const;
     int getCapacity() const;
-    void setWeight(int w);
     void setFlow(int f);
     void setCapacity(int c);
     friend class Graph;

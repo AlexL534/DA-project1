@@ -105,5 +105,7 @@ public:
     bool bfs(Vertex* src, Vertex* snk);
     void updateFlow(Vertex* src, Vertex* snk, int flow);
     void edmondsKarp(const std::string &source, const std::string &sink);
+    void fordFulkerson(Graph& g, const std::string &source, const std::string &sink);
+    vector<Edge*> findAugmentingPath(Graph& g, const string& source, const string& sink);
     Graph buildGraph(vector<Reservoir> reservoirs, vector<Station> stations, vector<Pipe> pipes, vector<City> cities);
 };

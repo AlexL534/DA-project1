@@ -44,7 +44,7 @@ The dataset models the **continental Portuguese water supply system**, including
 - Simulate failures and analyze impacts
 
 ---
-Developed by:
+### Developed by:
 -Alexandre Lopes
 -Guilherme Santos
 -Tomás Silva

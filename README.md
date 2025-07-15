@@ -16,13 +16,13 @@ To solve this, we implemented:
 - **Failure simulations** (removal of reservoirs, pumping stations, and pipes)
 - **Graph data structures** tailored to a national-scale water network
 
-## ⚙️ Technologies
+## Technologies
 
 - **C++**
 - **Doxygen** (for full API documentation)
 - CSV data parsing, command-line interface
 
-## 📊 Dataset
+## Dataset
 
 The dataset models the **continental Portuguese water supply system**, including:
 - Reservoirs

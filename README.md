@@ -45,6 +45,6 @@ The dataset models the **continental Portuguese water supply system**, including
 
 ---
 Developed by:
-Alexandre Lopes
-Guilherme Santos
-Tomás Silva
+-Alexandre Lopes
+-Guilherme Santos
+-Tomás Silva

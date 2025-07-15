@@ -30,7 +30,7 @@ The dataset models the **continental Portuguese water supply system**, including
 - Delivery Sites (Cities)
 - Pipelines (with direction & capacity)
 
-## 🏁 Grade
+## Grade
 
 **Final Grade: 15.05/20**
 
